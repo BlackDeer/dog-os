@@ -1,0 +1,15 @@
+node_modules/
+dist/
+public/ort/
+.DS_Store
+*.local
+
+# training data and footage of the home never go to git
+ml/.venv/
+ml/datasets/
+ml/data/
+ml/inbox/
+ml/out/
+ml/runs/
+*.pt
+__pycache__/

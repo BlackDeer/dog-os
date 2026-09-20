@@ -1,0 +1,484 @@
+{
+  "version": 1,
+  "tags": [
+    "nature-sounds",
+    "trees-forest",
+    "birds",
+    "squirrels",
+    "dogs-playing",
+    "fish-tank",
+    "rain",
+    "farm"
+  ],
+  "videos": [
+    {
+      "id": "birds-squirrels-dinning-fun",
+      "source": "youtube",
+      "ref": "uUah6_-SKR8",
+      "title": "Videos for Cats and Dogs : 8 Hours of Birds and Squirrel Fun ✅",
+      "channel": "Paul Dinning",
+      "tags": [
+        "birds",
+        "squirrels"
+      ],
+      "durationSec": 32140,
+      "calm": false
+    },
+    {
+      "id": "birds-squirrels-dinning-extravaganza",
+      "source": "youtube",
+      "ref": "6D1K_bguPrc",
+      "title": "Videos for Dogs to Watch Extravaganza : Dog Watch TV - 8 Hours of Birds and Squirrel Fun for Dogs ✅",
+      "channel": "Paul Dinning",
+      "tags": [
+        "birds",
+        "squirrels"
+      ],
+      "durationSec": 28854,
+      "calm": false
+    },
+    {
+      "id": "deer-squirrels-birds-sunset-cove",
+      "source": "youtube",
+      "ref": "oxBC-t16Gcc",
+      "title": "Dog & Cat TV 🦌 8 Hours of REAL NATURE With a Buck, Doe, Squirrels & Birds for Dogs, Cats & Everyone",
+      "channel": "On Sunset Cove",
+      "tags": [
+        "squirrels",
+        "birds"
+      ],
+      "durationSec": 28867,
+      "calm": false
+    },
+    {
+      "id": "squirrels-birds-lake-sunset-cove",
+      "source": "youtube",
+      "ref": "EKoJYVHynNI",
+      "title": "SQUIRRELS & BIRDS BY THE LAKE 🐿️ 8 Hours of Cat TV • Dog TV for Cats, Dogs and People",
+      "channel": "On Sunset Cove",
+      "tags": [
+        "squirrels",
+        "birds"
+      ],
+      "durationSec": 28912,
+      "calm": false
+    },
+    {
+      "id": "feeder-cam-great-lakes",
+      "source": "youtube",
+      "ref": "_ZO4AdADdVE",
+      "title": "Birds & Squirrels for Cats and Dogs to Watch | Bird Feeder Cam 4K",
+      "channel": "Great Lakes Country",
+      "tags": [
+        "birds",
+        "squirrels"
+      ],
+      "durationSec": 3697,
+      "calm": false
+    },
+    {
+      "id": "birds-washington-nature-relaxation",
+      "source": "youtube",
+      "ref": "rV_ERKtNyNA",
+      "title": "8 Hours of Beautiful Birds (No Music) 4K Nature Relaxation™ - Washington State",
+      "channel": "Nature Relaxation Films",
+      "tags": [
+        "birds",
+        "nature-sounds"
+      ],
+      "durationSec": 28710,
+      "calm": false
+    },
+    {
+      "id": "birds-feeder-cam-4h",
+      "source": "youtube",
+      "ref": "AYKofpcBFkA",
+      "title": "Cat TV: 4 Hours of Birds Being Awesome! (Bird Feeder Cam)",
+      "channel": "Relax My Cat - Relaxing Music for Cats",
+      "tags": [
+        "birds"
+      ],
+      "durationSec": 14437,
+      "calm": false
+    },
+    {
+      "id": "dogs-playing-7h-playgroup",
+      "source": "youtube",
+      "ref": "4-XPlXE1Q2o",
+      "title": "Dogs Playing for 7 Hours",
+      "channel": "Dog PlayGroup Stories",
+      "tags": [
+        "dogs-playing"
+      ],
+      "durationSec": 27349,
+      "calm": false
+    },
+    {
+      "id": "dogs-playing-forest-beach",
+      "source": "youtube",
+      "ref": "HPHlVSrMxwM",
+      "title": "Dogs Playing at the Forest and Beach (No Music)",
+      "channel": "Mark Greer",
+      "tags": [
+        "dogs-playing"
+      ],
+      "durationSec": 1900,
+      "calm": false
+    },
+    {
+      "id": "doggy-daycare-farm-dog-tv",
+      "source": "youtube",
+      "ref": "fP40ZgOiT2Q",
+      "title": "Entertaining Doggy Daycare TV - Ultimate Dog Video for Dogs To Watch - Dog Sounds Barking Squeak Toy",
+      "channel": "Farm Dog TV",
+      "tags": [
+        "dogs-playing"
+      ],
+      "durationSec": 21447,
+      "calm": false
+    },
+    {
+      "id": "dog-daycare-farm-dog-tv-2",
+      "source": "youtube",
+      "ref": "zO1cEwRpCOA",
+      "title": "Dog TV Daycare for Dogs to Watch 🐶 YouTube Entertainment for Dogs 🐶 Anti Anxiety for Dogs Home Alone",
+      "channel": "Farm Dog TV",
+      "tags": [
+        "dogs-playing"
+      ],
+      "durationSec": 26469,
+      "calm": false
+    },
+    {
+      "id": "tv-for-dogs-relax-my-dog-8h",
+      "source": "youtube",
+      "ref": "I4KCmFfVm34",
+      "title": "TV for Dogs! 8 HOURS of Fun Entertainment for Bored Dogs + Music! NEW",
+      "channel": "Relax My Dog - Relaxing Music for Dogs",
+      "tags": [
+        "dogs-playing"
+      ],
+      "durationSec": 28817,
+      "calm": false
+    },
+    {
+      "id": "redwood-forest-walk",
+      "source": "youtube",
+      "ref": "q9rQTB_Qr0A",
+      "title": "Redwood Forest Soundscape | 4K Forest Walk, Not AI | Natural Ambience | Study & Meditation",
+      "channel": "Listening to Earth",
+      "tags": [
+        "trees-forest",
+        "nature-sounds"
+      ],
+      "durationSec": 7200,
+      "calm": true
+    },
+    {
+      "id": "autumn-forest-walk",
+      "source": "youtube",
+      "ref": "478TeAxm12g",
+      "title": "Autumn Forest Walk in 4K | 2.5 HRS Nature Video with Nature Sounds and Birds Singing",
+      "channel": "4K Relaxation Channel",
+      "tags": [
+        "trees-forest",
+        "nature-sounds"
+      ],
+      "durationSec": 9761,
+      "calm": true
+    },
+    {
+      "id": "forest-walk-wooden-trails",
+      "source": "youtube",
+      "ref": "Z_7ChN30zWQ",
+      "title": "Peaceful Forest Walk Through Wooden Trails 🌲River Sounds, Canyon Views & Deep Nature Ambience 4K",
+      "channel": "Silent Canada",
+      "tags": [
+        "trees-forest",
+        "nature-sounds"
+      ],
+      "durationSec": 3654,
+      "calm": true
+    },
+    {
+      "id": "autumn-forest-river-silentwatcher",
+      "source": "youtube",
+      "ref": "czCHvDY23fc",
+      "title": "4K Autumn Forest - Relaxing Nature Video & River Sounds - NO MUSIC - 1 hour Ultra HD 2160p",
+      "channel": "TheSilentWatcher",
+      "tags": [
+        "trees-forest",
+        "nature-sounds"
+      ],
+      "durationSec": 3754,
+      "calm": true
+    },
+    {
+      "id": "forest-river-birdsong-3h",
+      "source": "youtube",
+      "ref": "20oFPFKr-X8",
+      "title": "Peaceful Forest River Birds Chirping 🌿🌊 3 Hour Relaxing Sleep 4K",
+      "channel": "Calm Ember",
+      "tags": [
+        "nature-sounds",
+        "trees-forest"
+      ],
+      "durationSec": 10800,
+      "calm": true
+    },
+    {
+      "id": "forest-river-stream-naturescapes",
+      "source": "youtube",
+      "ref": "re_UE0yo87I",
+      "title": "4K Forest River Nature Sounds - Gentle Stream, Birdsong & Sunlight | Relaxing Ambience for Sleep",
+      "channel": "Naturescapes",
+      "tags": [
+        "nature-sounds",
+        "trees-forest"
+      ],
+      "durationSec": 10800,
+      "calm": true
+    },
+    {
+      "id": "forest-stream-silentwatcher",
+      "source": "youtube",
+      "ref": "1t7g690boao",
+      "title": "4K Forest Stream - Relaxing River Sounds - No Birds - Ultra HD Nature Video -  Relax/ Sleep/ Study",
+      "channel": "TheSilentWatcher",
+      "tags": [
+        "nature-sounds",
+        "trees-forest"
+      ],
+      "durationSec": 10804,
+      "calm": true
+    },
+    {
+      "id": "misty-mountain-stream-naturescapes",
+      "source": "youtube",
+      "ref": "1e4JRVke-zk",
+      "title": "Forest River Sounds for Sleep 🌿 Misty Mountain Stream & Birdsong (3 Hours, No Music)",
+      "channel": "Naturescapes",
+      "tags": [
+        "nature-sounds",
+        "trees-forest"
+      ],
+      "durationSec": 10800,
+      "calm": true
+    },
+    {
+      "id": "aquarium-green-aqua-2h",
+      "source": "youtube",
+      "ref": "SjPSlkoAcaQ",
+      "title": "AQUARIUM WITH RELAXATION MUSIC - 2 HOUR CINEMATIC FISH TANK ASMR IN 4K",
+      "channel": "Green Aqua",
+      "tags": [
+        "fish-tank"
+      ],
+      "durationSec": 8600,
+      "calm": true
+    },
+    {
+      "id": "fish-tank-water-sounds-8h",
+      "source": "youtube",
+      "ref": "uIpn8KfKOjg",
+      "title": "Relaxing Fish Tank Aquarium For Cats | Water Sounds ONLY no Music | Relax and Focus | 8 hours 4K",
+      "channel": "Fat Fish",
+      "tags": [
+        "fish-tank"
+      ],
+      "durationSec": 28890,
+      "calm": true
+    },
+    {
+      "id": "aquarium-hdr-balu-1h",
+      "source": "youtube",
+      "ref": "gTyRS1nDIHs",
+      "title": "The Ultimate 4K HDR Relaxing Aquarium for Living Room TV Screensaver 🐠 (No Music) - 1 Hour",
+      "channel": "Balu - Relaxing Nature in 4K",
+      "tags": [
+        "fish-tank"
+      ],
+      "durationSec": 3741,
+      "calm": true
+    },
+    {
+      "id": "aquarium-vertical-10h",
+      "source": "youtube",
+      "ref": "taN7r7wZxBs",
+      "title": "Vertical 10 Hours of Relaxing Aquarium Fish Tank in 4K for TV Screens",
+      "channel": "FlexMe",
+      "tags": [
+        "fish-tank"
+      ],
+      "durationSec": 36044,
+      "calm": true
+    },
+    {
+      "id": "rain-window-forest-thunder-8h",
+      "source": "youtube",
+      "ref": "zBPOjdWtPBc",
+      "title": "Rain On Window & Thunder Sounds - Rainy Afternoon Forest - 8 Hours Relaxation & Sleep | rain sounds",
+      "channel": "The Relaxing Town",
+      "tags": [
+        "rain"
+      ],
+      "durationSec": 29288,
+      "calm": true
+    },
+    {
+      "id": "heavy-rain-window-nook-8h",
+      "source": "youtube",
+      "ref": "ttsBzshvens",
+      "title": "Heavy Rain On Window Sounds for Sleep 8 Hours - Cozy Reading Nook Ambience",
+      "channel": "Calmed By Nature",
+      "tags": [
+        "rain"
+      ],
+      "durationSec": 28980,
+      "calm": true
+    },
+    {
+      "id": "gentle-rain-window-8h",
+      "source": "youtube",
+      "ref": "gk0GP4Tuet8",
+      "title": "Rain on Window - 8 Hours of Gentle Rain Sounds for Sleep, Relaxation and Focus",
+      "channel": "LunaraHush",
+      "tags": [
+        "rain"
+      ],
+      "durationSec": 28801,
+      "calm": true
+    },
+    {
+      "id": "closeup-rain-window-8h",
+      "source": "youtube",
+      "ref": "vVxOEjdZD44",
+      "title": "Close-Up Rain on Window • Detailed Glass Rain Sounds for Sleep (8 Hours)",
+      "channel": "Silent Rain Ambience ASMR",
+      "tags": [
+        "rain"
+      ],
+      "durationSec": 30900,
+      "calm": true
+    },
+    {
+      "id": "cows-grazing-10h",
+      "source": "youtube",
+      "ref": "HivkcMpkBUI",
+      "title": "Cows Grazing - 10 Hour Relaxation Video",
+      "channel": "Natures Flow NZ",
+      "tags": [
+        "farm"
+      ],
+      "durationSec": 36610,
+      "calm": true
+    },
+    {
+      "id": "relax-on-the-farm",
+      "source": "youtube",
+      "ref": "ziM6AXAlf80",
+      "title": "Relax on the Farm - Nature Relaxation Video",
+      "channel": "Into the Ambience",
+      "tags": [
+        "farm",
+        "nature-sounds"
+      ],
+      "durationSec": 3610,
+      "calm": true
+    },
+    {
+      "id": "cows-meadow-parakeet",
+      "source": "youtube",
+      "ref": "EC6LIE9Drgc",
+      "title": "4K Relaxing Video With Cows Grazing Peacefully in the Meadow 🐄🌿🌾",
+      "channel": "The Parakeet",
+      "tags": [
+        "farm"
+      ],
+      "durationSec": 3769,
+      "calm": true
+    },
+    {
+      "id": "farm-animals-parakeet",
+      "source": "youtube",
+      "ref": "8SS4Zdx1utc",
+      "title": "4K RELAXING FARM ANIMALS VIDEO | RELAXING FARM ANIMAL SOUNDS",
+      "channel": "The Parakeet",
+      "tags": [
+        "farm"
+      ],
+      "durationSec": 2237,
+      "calm": true
+    },
+    {
+      "id": "file-busy-bird-feeder-usfws",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/transcoded/4/40/Busy_Bird_Feeder_%2831524812531%29.webm/Busy_Bird_Feeder_%2831524812531%29.webm.1080p.vp9.webm",
+      "title": "Busy Bird Feeder",
+      "channel": "Courtney Celley / U.S. Fish and Wildlife Service - Midwest Region",
+      "tags": [
+        "birds"
+      ],
+      "durationSec": 101,
+      "calm": false,
+      "license": "Public domain (US federal government work)",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Busy_Bird_Feeder_(31524812531).webm"
+    },
+    {
+      "id": "file-bird-feeder-slovakia",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/3/30/Bird_feeder_in_the_mountains_of_Slovakia.webm",
+      "title": "Bird feeder in the mountains of Slovakia",
+      "channel": "Lubo Ondrasko",
+      "tags": [
+        "birds"
+      ],
+      "durationSec": 103,
+      "calm": false,
+      "license": "CC BY 3.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Bird_feeder_in_the_mountains_of_Slovakia.webm"
+    },
+    {
+      "id": "file-squirrel-in-the-bushes",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/transcoded/0/07/Squirrel_in_the_bushes.webm/Squirrel_in_the_bushes.webm.1080p.vp9.webm",
+      "title": "Squirrel in the bushes",
+      "channel": "JustThomas1000",
+      "tags": [
+        "squirrels"
+      ],
+      "durationSec": 36,
+      "calm": false,
+      "license": "CC BY 2.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Squirrel_in_the_bushes.webm"
+    },
+    {
+      "id": "file-deer-creek-falls-nps",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/7/74/Grand_Canyon_National_Park-_Minute_Out_In_It_-_Deer_Creek_Falls_%288639043264%29.webm",
+      "title": "Grand Canyon National Park: Minute Out In It - Deer Creek Falls",
+      "channel": "Grand Canyon NPS",
+      "tags": [
+        "nature-sounds"
+      ],
+      "durationSec": 60,
+      "calm": true,
+      "license": "Public domain (US federal government work)",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Grand_Canyon_National_Park-_Minute_Out_In_It_-_Deer_Creek_Falls_(8639043264).webm"
+    },
+    {
+      "id": "file-banner-fish-coral-reef",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/2/24/Tropical_Fish_Banner_Fish_on_Coral_Reef.webm",
+      "title": "Tropical Fish Banner Fish on Coral Reef",
+      "channel": "underwatercam",
+      "tags": [
+        "fish-tank"
+      ],
+      "durationSec": 13,
+      "calm": true,
+      "license": "CC BY 3.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Tropical_Fish_Banner_Fish_on_Coral_Reef.webm"
+    }
+  ]
+}
