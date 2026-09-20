@@ -18,9 +18,9 @@ async function init(base: string) {
     if (meta) {
       size = meta.inputSize ?? meta.input?.shape?.[2] ?? size
       K = meta.keypoints?.length ?? K
-      conf = meta.confThreshold ?? meta.recommendedConfidence ?? conf
+      conf = meta.recommendedConfThreshold ?? meta.confThreshold ?? conf
     }
-    const file = meta?.file ?? 'dogpose.onnx'
+    const file = meta?.model ?? meta?.file ?? 'dogpose.onnx'
     const res = await fetch(base + 'models/' + file)
     if (!res.ok) throw new Error('no model (' + res.status + ')')
     const buf = await res.arrayBuffer()

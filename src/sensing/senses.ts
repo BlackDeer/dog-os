@@ -109,7 +109,8 @@ class Senses {
       if (f) {
         motion = f.motion; yaw = f.yaw
         if (f.visible > 0.5 && f.motion < 0.5) this.neutral.push(f.yaw)
-        const neutralYaw = this.calibratedNeutralYaw ?? (this.neutral.count > 30 ? this.neutral.value : 0)
+        // learned neutral is clamped: the lens is never far off-axis, so a dog that mostly looks away must not become "neutral"
+        const neutralYaw = this.calibratedNeutralYaw ?? (this.neutral.count > 30 ? Math.max(-0.25, Math.min(0.25, this.neutral.value)) : 0)
         attRaw = attentionScore(f, neutralYaw)
       }
       const n = pose.kpts[KP.nose]

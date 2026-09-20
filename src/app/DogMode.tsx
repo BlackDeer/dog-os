@@ -92,6 +92,7 @@ export function DogMode({ onExit }: { onExit: () => void }) {
   // ---- scheduler actions -------------------------------------------------------------------------
   function apply(actions: Action[]) {
     for (const a of actions) {
+      if (getSettings().devMode) console.debug('[dogos]', JSON.stringify(a))
       if (a.type === 'enter') {
         setMode(a.mode)
         recorder.setContext({ mode: a.mode, videoId: null, tag: null })
