@@ -371,7 +371,9 @@ be cut without breaking what came before.
    train, export. Stub `poseWorker` with a recorded trace until it lands.
 2. Scaffold, PWA manifest, fullscreen + wake lock (re-acquire on visibilitychange), owner gate, `useDogTouch`,
    camera, and the **clip recorder with Clips list and share**. It needs no model.
-3. **GitHub repo + Pages deploy via Actions now**, not at the end. From this point the owner can install the
+3. **GitHub repo + Pages deploy now**, not at the end. (As built: `npm run deploy` pushes `dist/` to the
+   `gh-pages` branch, because the local `gh` token lacks the `workflow` scope. The Actions workflow is parked
+   at `scripts/deploy-workflow.yml`; `gh auth refresh -s workflow` enables it.) From this point the owner can install the
    app and record Niles while the rest is built. Camera, autoplay, wake lock and install
    behavior only show up on the real phone over HTTPS, so every later step gets checked there.
 4. Catalog + verify script + player (YouTube and file) with touch shield and the autoplay handling.
