@@ -1,0 +1,142 @@
+{
+  "model": "dogpose.onnx",
+  "baseModel": "unknown",
+  "opset": 17,
+  "ops": [
+    "Add",
+    "Cast",
+    "Concat",
+    "Conv",
+    "Expand",
+    "Flatten",
+    "GatherElements",
+    "MatMul",
+    "MaxPool",
+    "Mod",
+    "Mul",
+    "ReduceMax",
+    "Reshape",
+    "Resize",
+    "Sigmoid",
+    "Slice",
+    "Softmax",
+    "Split",
+    "Sub",
+    "TopK",
+    "Transpose",
+    "Unsqueeze"
+  ],
+  "input": {
+    "name": "images",
+    "shape": [
+      1,
+      3,
+      320,
+      320
+    ],
+    "dtype": "float32",
+    "layout": "NCHW",
+    "channelOrder": "RGB",
+    "scaling": "pixel / 255 (range 0..1), no mean/std normalization",
+    "letterbox": {
+      "size": 320,
+      "padValue": 114,
+      "center": true,
+      "how": "r = min(320/w, 320/h); resize to (round(w*r), round(h*r)); paste at padX = floor((320-newW)/2), padY = floor((320-newH)/2) on a 320x320 canvas filled with RGB(114,114,114). Undo on outputs: x = (x320 - padX) / r, y = (y320 - padY) / r."
+    }
+  },
+  "output": {
+    "name": "output0",
+    "shape": [
+      1,
+      20,
+      36
+    ],
+    "dtype": "float32",
+    "end2end": true,
+    "needsNMS": false,
+    "coordinates": "pixels of the 320x320 letterboxed input (not normalized)",
+    "layout": "rows",
+    "rowLayout": [
+      "x1",
+      "y1",
+      "x2",
+      "y2",
+      "conf",
+      "cls",
+      "nose_x",
+      "nose_y",
+      "nose_conf",
+      "left_eye_x",
+      "left_eye_y",
+      "left_eye_conf",
+      "right_eye_x",
+      "right_eye_y",
+      "right_eye_conf",
+      "left_ear_base_x",
+      "left_ear_base_y",
+      "left_ear_base_conf",
+      "right_ear_base_x",
+      "right_ear_base_y",
+      "right_ear_base_conf",
+      "left_ear_tip_x",
+      "left_ear_tip_y",
+      "left_ear_tip_conf",
+      "right_ear_tip_x",
+      "right_ear_tip_y",
+      "right_ear_tip_conf",
+      "chin_x",
+      "chin_y",
+      "chin_conf",
+      "throat_x",
+      "throat_y",
+      "throat_conf",
+      "withers_x",
+      "withers_y",
+      "withers_conf"
+    ],
+    "rows": 20,
+    "rowLength": 36,
+    "boxFormat": "xyxy corners",
+    "description": "NMS-free (YOLO26 one-to-one head, top-20 already applied inside the graph). output[0][i] is one candidate, sorted by conf descending; rows with conf below the threshold are filler. Take row 0 if conf >= recommendedConfThreshold. cls is always 0. Keypoint conf is already sigmoid-ed (0..1)."
+  },
+  "numClasses": 1,
+  "classNames": [
+    "dog"
+  ],
+  "keypoints": [
+    "nose",
+    "left_eye",
+    "right_eye",
+    "left_ear_base",
+    "right_ear_base",
+    "left_ear_tip",
+    "right_ear_tip",
+    "chin",
+    "throat",
+    "withers"
+  ],
+  "flipIdx": [
+    0,
+    2,
+    1,
+    4,
+    3,
+    6,
+    5,
+    7,
+    8,
+    9
+  ],
+  "keypointsNeverSupervised": [
+    "throat",
+    "withers"
+  ],
+  "keypointNotes": {
+    "left/right": "the DOG's left/right. For a dog facing the camera, left_eye is on the image's right side (before any mirroring of the front-camera preview).",
+    "eyes": "supervised only by AP-10K canids (~1k images); ears/chin only by Dog-Pose; nose by both.",
+    "throat,withers": "never annotated in any training source: ignore x,y and confidence for these two."
+  },
+  "recommendedConfThreshold": 0.35,
+  "recommendedKeypointConfThreshold": 0.5
+}

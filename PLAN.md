@@ -137,9 +137,9 @@ This file is the spec for the build one-shot. Build everything in "Scope", in th
 - 15% forced exploration so the catalog doesn't collapse to one channel.
 - **Embedding + search model**: `onnx-community/TinyCLIP-ViT-8M-16-Text-3M-YFCC15M-ONNX`, int8, ~24 MB,
   loaded through transformers.js. One model does both jobs, which is required: text queries only match
-  image vectors that came from the same CLIP. The published repo appears to ship a single combined
-  `model.onnx`; check at build time, and if so export separate vision and text towers on the Mac with
-  `optimum` and quantize them, so the phone can load the text tower only in owner mode.
+  image vectors that came from the same CLIP. The published ONNX is a single combined graph (checked at
+  build time: no separate tower files exist), so the app runs the whole 24 MB model and feeds the unused
+  tower a dummy input. The model is loaded lazily, in owner mode only; dog mode never touches it.
   - Build time (`scripts/embed-catalog.ts`, Node, same model): per video, pull 4–8 thumbnails/frames,
     embed, mean-pool, L2-normalize, store as base64 float16 in `catalog.json`.
   - On device: cosine similarity in plain JS. At 30–3,000 items a flat scan is the vector DB.

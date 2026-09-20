@@ -9,22 +9,22 @@ let loading: Promise<Embedder> | null = null
 export function getEmbedder(): Promise<Embedder> {
   return (loading ??= (async () => {
     const tf = await import('@huggingface/transformers')
-    const opts = { dtype: 'q8' as const }
-    const [tokenizer, textModel, processor, visionModel] = await Promise.all([
+    // The published ONNX is one combined graph (both towers, ~24 MB int8), so the unused tower gets a dummy input.
+    const [tokenizer, processor, model] = await Promise.all([
       tf.AutoTokenizer.from_pretrained(CLIP_MODEL),
-      tf.CLIPTextModelWithProjection.from_pretrained(CLIP_MODEL, opts),
       tf.AutoProcessor.from_pretrained(CLIP_MODEL),
-      tf.CLIPVisionModelWithProjection.from_pretrained(CLIP_MODEL, opts),
+      tf.CLIPModel.from_pretrained(CLIP_MODEL, { dtype: 'q8' }),
     ])
+    const tok = (q: string) => tokenizer([q], { padding: 'max_length', max_length: 77, truncation: true })
+    const dummyText = tok('a')
+    const dummyImage = await processor(new tf.RawImage(new Uint8ClampedArray(224 * 224 * 3).fill(127), 224, 224, 3))
     return {
       async text(q: string) {
-        const inputs = tokenizer([q], { padding: 'max_length', truncation: true })
-        const { text_embeds } = await textModel(inputs)
+        const { text_embeds } = await model({ ...tok(q), ...dummyImage })
         return normalize(Float32Array.from(text_embeds.data as Float32Array))
       },
       async image(url: string) {
-        const img = await tf.RawImage.read(url)
-        const { image_embeds } = await visionModel(await processor(img))
+        const { image_embeds } = await model({ ...dummyText, ...(await processor(await tf.RawImage.read(url))) })
         return normalize(Float32Array.from(image_embeds.data as Float32Array))
       },
     }
