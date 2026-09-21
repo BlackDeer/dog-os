@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { unlockAudio } from '../audio/sounds'
-import { useSettings } from '../store/settings'
-import { Calibrate } from './Calibrate'
+import { setSettings, useSettings, type Preset } from '../store/settings'
 import { Clips } from './Clips'
 import { DogMode } from './DogMode'
 import { Library } from './Library'
@@ -10,52 +9,38 @@ import { SettingsScreen } from './Settings'
 import { Today } from './Today'
 import { TouchTarget, Train } from './Train'
 import { Wizard } from './Wizard'
-import { enterKiosk, exitKiosk } from './kiosk'
+import { enterKiosk } from './kiosk'
 
-export type Screen = 'today' | 'train' | 'library' | 'settings' | 'clips' | 'calibrate'
-type Full = null | 'dog' | 'countdown' | 'touch-target' | 'pointer-test'
+type Screen = 'watch' | 'train' | 'library' | 'clips' | 'settings'
+type Full = null | 'dog' | 'touch-target' | 'pointer-test'
+const TABS: [Screen, string][] = [['watch', 'Watch'], ['train', 'Train'], ['library', 'Library'], ['clips', 'Clips'], ['settings', 'Settings']]
 
 export function App() {
   const settings = useSettings()
-  const [screen, setScreen] = useState<Screen>('today')
-  const [full, setFull] = useState<Full>(null)
+  const [screen, setScreen] = useState<Screen>('watch')
+  // diagnostics stay reachable without cluttering the UI: open the app at #pointer-test
+  const [full, setFull] = useState<Full>(location.hash === '#pointer-test' ? 'pointer-test' : null)
+  const [session, setSession] = useState(0)
 
   if (!settings.wizardDone) return <Wizard />
-  if (full === 'dog') return <DogMode onExit={() => setFull(null)} />
-  if (full === 'pointer-test') return <PointerTest onExit={() => setFull(null)} />
+  if (full === 'dog') return <DogMode key={session} onExit={() => setFull(null)} />
   if (full === 'touch-target') return <TouchTarget onExit={() => setFull(null)} />
-  if (full === 'countdown') return <Countdown onDone={() => setFull('dog')} onCancel={() => { void exitKiosk(); setFull(null) }} />
+  if (full === 'pointer-test') return <PointerTest onExit={() => { history.replaceState(null, '', location.pathname); setFull(null) }} />
 
-  const tabs: [Screen, string][] = [['today', 'Today'], ['train', 'Train'], ['library', 'Library'], ['settings', '⚙']]
+  // fullscreen and audio have to be requested inside the tap itself
+  const start = (channel: Preset) => { unlockAudio(); void enterKiosk(); setSettings({ preset: channel }); setSession((n) => n + 1); setFull('dog') }
   return (
     <div className="owner">
       <main className="owner-main">
-        {screen === 'today' && <Today onStart={() => { unlockAudio(); void enterKiosk(); setFull('countdown') }} go={setScreen} />}
+        {screen === 'watch' && <Today onStart={start} />}
         {screen === 'train' && <Train onTouchTarget={() => { unlockAudio(); void enterKiosk(); setFull('touch-target') }} />}
         {screen === 'library' && <Library />}
-        {screen === 'settings' && <SettingsScreen go={setScreen} onPointerTest={() => setFull('pointer-test')} />}
-        {screen === 'clips' && <Clips back={() => setScreen('today')} />}
-        {screen === 'calibrate' && <Calibrate back={() => setScreen('settings')} />}
+        {screen === 'clips' && <Clips />}
+        {screen === 'settings' && <SettingsScreen />}
       </main>
       <nav className="tabs">
-        {tabs.map(([id, label]) => <button key={id} className={screen === id ? 'on' : ''} onClick={() => setScreen(id)} aria-label={id}>{label}</button>)}
+        {TABS.map(([id, label]) => <button key={id} className={screen === id ? 'on' : ''} onClick={() => setScreen(id)}>{label}</button>)}
       </nav>
-    </div>
-  )
-}
-
-function Countdown({ onDone, onCancel }: { onDone: () => void; onCancel: () => void }) {
-  const [n, setN] = useState(5)
-  useEffect(() => {
-    if (n <= 0) { onDone(); return }
-    const t = setTimeout(() => setN((v) => v - 1), 1000)
-    return () => clearTimeout(t)
-  }, [n])
-  return (
-    <div className="countdown" onClick={onCancel}>
-      <div className="countdown-n">{Math.max(n, 1)}</div>
-      <p>Put the phone in the stand.</p>
-      <p className="muted">Tap to cancel. To come back: hold the top-right corner for 3 seconds.</p>
     </div>
   )
 }

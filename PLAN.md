@@ -298,7 +298,23 @@ It is for the owner glancing across the room. Nothing else human-readable appear
   then a one-line sum ("7 + 5 = ?") with three big answers. Wrong answer or 10 s idle drops back to dog
   mode without a sound. The ring is the only affordance and it appears only under a held finger.
 
-### Owner-facing UI
+### Owner-facing UI (simplified 2026-09-21, supersedes the wireframes below where they differ)
+
+- **Front page is a channel picker**: four big tiles (Calm, Bird TV, Games, Everything). Tapping one starts it.
+  No start button, no countdown, no camera on this screen. Below: one summary line once there is data, and a
+  *Share* banner when there are new training clips.
+- **Tabs, all spelled out**: Watch · Train · Library · Clips · Settings.
+- **Settings is five rows**: volume limit, record sessions (on), show pointer to the dog (on), attention
+  monitor (on), no YouTube. Removed: dog's name, session length and rest, quiet hours, rotation threshold, nose
+  calibration, pick screen, recording mode/audio/storage cap, dev mode. They run on defaults. The pointer test
+  is reachable at `#pointer-test` only.
+- **Recording is on by default** and sharing is one tap from the front page.
+- **Sessions run until the owner exits**: no session limit, cooldown or quiet hours. Calm never schedules
+  games; Games opens on a game and alternates game → one video → game.
+- **Exit**: a visible *✕ hold to exit* button, top-left, held for 1.5 s; Esc on keyboards. The hidden corner
+  hold and the arithmetic prompt are gone: the owner couldn't find them.
+- **First run** is two screens: allow camera (says what is recorded), then how to exit and how to mount.
+
 
 Four destinations in a bottom bar, nothing nested more than one level deep. Dark theme, large type,
 because it gets used at arm's length on a mounted phone.

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { deleteClip, listClips, readClip, type ClipRow } from '../recorder/clipStore'
 import { shareSink } from '../recorder/share'
 
-export function Clips({ back }: { back: () => void }) {
+export function Clips() {
   const [rows, setRows] = useState<ClipRow[]>([])
   const [playing, setPlaying] = useState<{ id: string; url: string } | null>(null)
   const [busy, setBusy] = useState('')
@@ -21,11 +21,11 @@ export function Clips({ back }: { back: () => void }) {
   const mb = (b: number) => (b / 1e6).toFixed(1) + ' MB'
   return (
     <div className="clips">
-      <header><button className="back" onClick={back}>‹ Today</button><h2>Clips</h2></header>
+      <h2>Clips</h2>
       <p className="muted">Clips stay on this device until you share them. Share sends a zip to Drive, Quick Share or email; drop it in <code>ml/inbox/</code> on the Mac.</p>
       <button className="primary" disabled={!fresh.length} onClick={() => share(fresh)}>Share all new ({fresh.length})</button>
       {busy && <p className="note">{busy}</p>}
-      {!rows.length && <p className="empty">No clips yet. Turn on “Record for training” and start a session.</p>}
+      {!rows.length && <p className="empty">No clips yet. Sessions are recorded automatically; start a channel from Watch.</p>}
       <ul>
         {rows.map((r) => (
           <li key={r.id}>

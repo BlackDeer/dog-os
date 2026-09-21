@@ -11,7 +11,7 @@ import { recorder } from '../recorder/recorder'
 import { startCamera } from '../sensing/camera'
 import { senses, type SenseState } from '../sensing/senses'
 import { kvGet, kvSet, put, type PlayRecord } from '../store/db'
-import { getSettings, inQuietHours, useSettings } from '../store/settings'
+import { getSettings, useSettings } from '../store/settings'
 import { AttentionMonitor } from './AttentionMonitor'
 import { OwnerGate, inGateCorner } from './OwnerGate'
 import { enterKiosk, exitKiosk } from './kiosk'
@@ -32,6 +32,7 @@ export function DogMode({ onExit }: { onExit: () => void }) {
   const recent = useRef<string[]>([])
   const lastInteraction = useRef(0)
   const failsInRow = useRef(0)
+  const gamesRested = useRef(false)   // Games channel: alternate game → one video as a breather → game
   const sessionId = useRef(`s-${Date.now()}`)
   const sessionStart = useRef(Date.now())
   const [mode, setMode] = useState<Mode>('rest')
@@ -113,7 +114,12 @@ export function DogMode({ onExit }: { onExit: () => void }) {
           else apply([...sched.current.picked(performance.now()), { type: 'next-video', reason: 'timer' }])
         }
       }
-      if (a.type === 'next-video') void playVideo(choose(a.calmOnly))
+      if (a.type === 'next-video') {
+        // the Games channel opens on a game, and goes back to one whenever the scheduler would pick a video
+        if (getSettings().preset === 'games' && a.reason !== 'calm-down' && sched.current.mode === 'watch' && !gamesRested.current) { gamesRested.current = true; apply(sched.current.forceMode('play', performance.now())); continue }
+        gamesRested.current = false
+        void playVideo(choose(a.calmOnly))
+      }
     }
   }
 
@@ -150,12 +156,16 @@ export function DogMode({ onExit }: { onExit: () => void }) {
     })
     const loop = window.setInterval(() => {
       const cur = getSettings(), st = senses.state
-      sched.current.cfg = { ...DEFAULT_CONFIG, rotateAfterSec: cur.rotateAfterSec, sessionSec: cur.sessionMin * 60, cooldownSec: cur.restMin * 60, pickEnabled: cur.pickScreen, gamesEnabled: cur.preset !== 'calm' || true }
+      // MVP: a session runs until the owner exits. No session limits, cooldowns or quiet hours.
+      sched.current.cfg = {
+        ...DEFAULT_CONFIG, rotateAfterSec: cur.rotateAfterSec, sessionSec: Infinity, cooldownSec: 0, pickEnabled: cur.pickScreen,
+        gamesEnabled: cur.preset !== 'calm', gameMinGapSec: cur.preset === 'games' ? 45 : DEFAULT_CONFIG.gameMinGapSec,
+      }
       const p = playing.current
       if (p && st.model !== 'ready') p.n++   // keep duration bookkeeping alive without sensing
       apply(sched.current.step({
         now: performance.now(), presence: st.presence, attention: st.attention, reward: st.reward, arousal: st.arousal,
-        sensing: st.model === 'ready', quiet: inQuietHours(cur), lastInteraction: lastInteraction.current,
+        sensing: st.model === 'ready', quiet: false, lastInteraction: lastInteraction.current,
       }))
     }, 500)
     return () => {

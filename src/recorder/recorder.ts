@@ -157,7 +157,7 @@ class ClipRecorder {
     const s = getSettings(), vs = cameraStream()?.getVideoTracks()[0]?.getSettings()
     return {
       format: 'dogos-clip/1', appVersion: APP_VERSION, clipId: row.id, dogName: s.dogName, startedAt: new Date(row.start).toISOString(),
-      durationSec: +row.durSec.toFixed(2), trigger: row.trigger, mime: row.mime, hasAudio: row.hasAudio, mountNote: s.mountNote,
+      durationSec: +row.durSec.toFixed(2), trigger: row.trigger, mime: row.mime, hasAudio: row.hasAudio,
       device: { userAgent: navigator.userAgent, screen: [screen.width, screen.height], dpr: devicePixelRatio, orientation: screen.orientation?.type ?? '' },
       camera: { width: vs?.width, height: vs?.height, frameRate: vs?.frameRate, facingMode: vs?.facingMode, mirrored: false },
       model: { state: senses.state.model, keypoints: KEYPOINTS, coords: 'normalized 0..1 in the un-mirrored camera frame; touches are normalized screen coords' },

@@ -3,7 +3,6 @@ import { cameraVideo } from './camera'
 import { ArousalTracker, Ema, RunningMedian, attentionScore, features, presence, reward } from './attention'
 import { DEFAULT_CAL, ZoneTracker, pointAt, type NoseCalibration, type Zone } from './noseZones'
 import { PointerFilter } from './pointerFilter'
-import { getSettings } from '../store/settings'
 import { KP, type Arousal, type DogPose, type Presence } from './types'
 
 export interface SenseState {
@@ -62,8 +61,6 @@ class Senses {
 
   start() {
     if (this.worker) return
-    const cfg = getSettings()
-    this.calibration = cfg.calibration; this.calibratedNeutralYaw = cfg.neutralYaw
     this.worker = new Worker(new URL('./poseWorker.ts', import.meta.url), { type: 'module' })
     this.worker.onmessage = (e) => this.onMessage(e.data)
     this.worker.postMessage({ type: 'init', base: new URL(import.meta.env.BASE_URL, location.href).href })

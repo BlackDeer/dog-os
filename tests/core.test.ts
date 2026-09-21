@@ -10,7 +10,6 @@ import { PointerFilter } from '../src/sensing/pointerFilter'
 import type { DogPose } from '../src/sensing/types'
 import { parseYouTubeId } from '../src/content/catalog'
 import { evictionOrder, type ClipRow } from '../src/recorder/clipStore'
-import { inQuietHours, DEFAULTS } from '../src/store/settings'
 import { summarizeTarget } from '../src/app/PointerTest'
 
 const rng = (seed = 1) => () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296 }
@@ -252,9 +251,5 @@ describe('misc', () => {
     const rows = [row('new', 3, false), row('old', 1, false), row('sharedNew', 4, true), row('mid', 2, false)]
     expect(evictionOrder(rows, 250).map((r) => r.id)).toEqual(['sharedNew', 'old'])
     expect(evictionOrder(rows, 1000)).toEqual([])
-  })
-  it('quiet hours wrap past midnight', () => {
-    const at = (h: number) => { const d = new Date(2026, 0, 1, h, 30); return inQuietHours(DEFAULTS, d) }
-    expect(at(23)).toBe(true); expect(at(3)).toBe(true); expect(at(12)).toBe(false)
   })
 })

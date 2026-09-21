@@ -80,8 +80,8 @@ export function Game({ kind, pointer, onInteract, ignoreCorner }: Props) {
       s.x += s.vx * dt; s.y += s.vy * dt
       if (s.x < s.r) { s.x = s.r; s.vx = Math.abs(s.vx) } if (s.x > s.w - s.r) { s.x = s.w - s.r; s.vx = -Math.abs(s.vx) }
       if (s.y < s.r) { s.y = s.r; s.vy = Math.abs(s.vy) } if (s.y > s.h - s.r) { s.y = s.h - s.r; s.vy = -Math.abs(s.vy) }
-      // keep the target out of the owner-gate corner
-      if (s.x > s.w - s.r * 1.6 && s.y < s.r * 1.6) { s.vx = -Math.abs(s.vx) - 20; s.vy = Math.abs(s.vy) + 20 }
+      // keep the target out of the exit corner (top-left)
+      if (s.x < s.r * 1.6 && s.y < s.r * 1.6) { s.vx = Math.abs(s.vx) + 20; s.vy = Math.abs(s.vy) + 20 }
       s.squash = Math.max(0, s.squash - dt * 4)
 
       ctx.clearRect(0, 0, s.w, s.h)
