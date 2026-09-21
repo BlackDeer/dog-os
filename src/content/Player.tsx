@@ -70,7 +70,11 @@ export const Player = forwardRef<PlayerHandle, Props>(function Player({ volume, 
             if (!v || v.source !== 'youtube') return
             if (e.data === YT.PlayerState.PLAYING) {
               const d = p.getDuration?.() ?? 0
-              if (d > 900 && !(p as any).__seeked) { (p as any).__seeked = true; p.seekTo(Math.floor(Math.random() * d * 0.7), true) }   // vary long ambient videos
+              if (!(p as any).__seeked) {
+                (p as any).__seeked = true
+                if (v.startAt) p.seekTo(v.startAt, true)                                          // openers start where the action is
+                else if (d > 900) p.seekTo(Math.floor(Math.random() * d * 0.7), true)           // vary long ambient videos
+              }
               started(v)
             }
             if (e.data === YT.PlayerState.ENDED) { p.seekTo(0, true); p.playVideo() }
@@ -104,6 +108,7 @@ export const Player = forwardRef<PlayerHandle, Props>(function Player({ volume, 
         try { yt.current?.pauseVideo?.() } catch { /* ignore */ }
         const el = fileEl.current!
         el.src = v.ref; el.loop = true; el.muted = false
+        if (v.startAt) el.addEventListener('loadedmetadata', () => { el.currentTime = v.startAt! }, { once: true })
         el.onplaying = () => started(v)
         el.onerror = () => fail(v, 'file error')
         el.play().catch(() => { el.muted = true; el.play().catch(() => fail(v, 'did not start')) })

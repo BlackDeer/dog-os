@@ -4,13 +4,25 @@ import { kvGet, kvSet } from '../store/db'
 export interface Video {
   id: string; source: 'youtube' | 'file'; ref: string; title: string; channel?: string; tags: string[]
   durationSec?: number | null; calm?: boolean; license?: string; embedding?: Float32Array; custom?: boolean
+  /** Openers lead a session: content picked for grabbing attention fast. `startAt` skips to where the action is. */
+  opener?: boolean; startAt?: number | null; arousalRisk?: 'low' | 'medium' | 'high'
 }
 interface RawVideo extends Omit<Video, 'embedding'> { embedding?: string }
 export interface Flags { pinned: string[]; blocked: string[]; failed: Record<string, number> }
 
 export const TAGS = ['nature-sounds', 'trees-forest', 'birds', 'squirrels', 'dogs-playing', 'fish-tank', 'rain', 'farm']
 const CALM_TAGS = new Set(['nature-sounds', 'trees-forest', 'rain', 'fish-tank'])
-export const isCalm = (v: Video) => v.calm ?? v.tags.some((t) => CALM_TAGS.has(t))
+export const isCalm = (v: Video) => v.arousalRisk !== 'high' && (v.calm ?? v.tags.some((t) => CALM_TAGS.has(t)))
+
+/**
+ * The pool to draw from at this point in a session. The first `lead` picks come from openers when there are any;
+ * the Calm channel only ever leads with low-arousal openers, because it promises calm, not excitement.
+ */
+export function sessionPool<T extends Pick<Video, 'opener' | 'arousalRisk'>>(all: T[], picksSoFar: number, channel: string, lead = 2): T[] {
+  if (picksSoFar >= lead) return all
+  const openers = all.filter((v) => v.opener && (channel !== 'calm' || (v.arousalRisk ?? 'low') === 'low'))
+  return openers.length ? openers : all
+}
 
 let cache: Video[] | null = null
 const hydrate = (r: RawVideo): Video => ({ ...r, embedding: r.embedding ? decodeF16(r.embedding) : undefined })

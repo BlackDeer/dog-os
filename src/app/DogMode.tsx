@@ -4,7 +4,7 @@ import { PRESET_WEIGHTS, emptyBandit, pick, update, type Arm, type BanditState }
 import { DEFAULT_CONFIG, Scheduler, type Action, type Mode } from '../brain/scheduler'
 import { centroid, cosine } from '../brain/similarity'
 import { Player, type PlayerHandle } from '../content/Player'
-import { getFlags, isCalm, loadCatalog, setFlags, thumb, type Flags, type Video } from '../content/catalog'
+import { getFlags, isCalm, loadCatalog, sessionPool, setFlags, thumb, type Flags, type Video } from '../content/catalog'
 import { Game, type GameKind, type GameState } from '../games/Game'
 import { useDogTouch } from '../input/useDogTouch'
 import { recorder, type ScreenRef } from '../recorder/recorder'
@@ -35,6 +35,7 @@ export function DogMode({ onExit }: { onExit: () => void }) {
   const failsInRow = useRef(0)
   const gameState = useRef<GameState | null>(null)
   const gameKind = useRef<GameKind>('bop')
+  const videoPicks = useRef(0)
   const gamesRested = useRef(false)   // Games channel: alternate game → one video as a breather → game
   const sessionId = useRef(`s-${Date.now()}`)
   const sessionStart = useRef(Date.now())
@@ -64,7 +65,8 @@ export function DogMode({ onExit }: { onExit: () => void }) {
     if (!c) return [cand[Math.floor(Math.random() * cand.length)]]
     return [...cand].sort((a, b) => cosine(c, byId.get(b.id)?.embedding ?? c) - cosine(c, byId.get(a.id)?.embedding ?? c))
   }
-  const choose = (calmOnly = false) => pick(bandit.current, arms(calmOnly), {
+  // sessions open on the high-engagement set, then the bandit takes over the whole catalog
+  const choose = (calmOnly = false) => pick(bandit.current, calmOnly ? arms(true) : sessionPool(arms().map((a) => ({ ...a, opener: a.video.opener, arousalRisk: a.video.arousalRisk })), videoPicks.current, getSettings().preset), {
     exclude: recent.current, tagWeights: PRESET_WEIGHTS[getSettings().preset], exploreRank,
   }) as (Arm & { video: Video }) | null
 
@@ -87,6 +89,7 @@ export function DogMode({ onExit }: { onExit: () => void }) {
   const playVideo = async (chosen: (Arm & { video: Video }) | null) => {
     await finishPlay()
     if (!chosen) { offlineFallback(); return }
+    videoPicks.current++
     recent.current = [chosen.id, ...recent.current].slice(0, Math.min(6, Math.max(1, arms().length - 1)))
     begin(chosen, 'video')
     recorder.setContext({ mode: 'watch', videoId: chosen.id, tag: chosen.tags[0] ?? null })

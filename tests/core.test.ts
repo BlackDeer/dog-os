@@ -8,7 +8,7 @@ import { decodePose, letterbox } from '../src/sensing/decode'
 import { DEFAULT_CAL, ZoneTracker, noseToScreen, pointAt } from '../src/sensing/noseZones'
 import { PointerFilter } from '../src/sensing/pointerFilter'
 import type { DogPose } from '../src/sensing/types'
-import { parseYouTubeId } from '../src/content/catalog'
+import { isCalm, parseYouTubeId, sessionPool } from '../src/content/catalog'
 import { evictionOrder, type ClipRow } from '../src/recorder/clipStore'
 import { summarizeTarget } from '../src/app/PointerTest'
 
@@ -236,6 +236,20 @@ describe('pointer test', () => {
     const mk = (x: number | null) => ({ ptr: x === null ? null : { x, y: 0.5 }, raw: x === null ? null : { x, y: 0.5 }, conf: 0.8, yawUsed: true, ref: 'eyes' })
     const r = summarizeTarget([0.5, 0.5], [mk(0.68), mk(0.72), mk(0.68), mk(0.72), mk(null)])
     expect(r.found).toBeCloseTo(0.8); expect(r.errX).toBeCloseTo(0.2); expect(r.errY).toBeCloseTo(0); expect(r.jitterX).toBeCloseTo(0.02)
+  })
+})
+
+describe('openers', () => {
+  const vids = [{ id: 'a', opener: true, arousalRisk: 'high' as const }, { id: 'b', opener: true, arousalRisk: 'low' as const }, { id: 'c' }, { id: 'd' }]
+  it('lead a session, then give way to the whole catalog', () => {
+    expect(sessionPool(vids, 0, 'everything').map((v) => v.id)).toEqual(['a', 'b'])
+    expect(sessionPool(vids, 1, 'birds').map((v) => v.id)).toEqual(['a', 'b'])
+    expect(sessionPool(vids, 2, 'everything')).toHaveLength(4)
+  })
+  it('the Calm channel only leads with low-arousal openers', () => expect(sessionPool(vids, 0, 'calm').map((v) => v.id)).toEqual(['b']))
+  it('falls back to everything when there are no openers', () => expect(sessionPool([{ id: 'x' } as { id: string; opener?: boolean }], 0, 'calm')).toHaveLength(1))
+  it('high-arousal content never counts as calm', () => {
+    expect(isCalm({ tags: ['rain'], arousalRisk: 'high' } as never)).toBe(false); expect(isCalm({ tags: ['rain'] } as never)).toBe(true)
   })
 })
 
