@@ -12,6 +12,7 @@ import { startCamera } from '../sensing/camera'
 import { senses, type SenseState } from '../sensing/senses'
 import { kvGet, kvSet, put, type PlayRecord } from '../store/db'
 import { getSettings, inQuietHours, useSettings } from '../store/settings'
+import { AttentionMonitor } from './AttentionMonitor'
 import { OwnerGate, inGateCorner } from './OwnerGate'
 import { enterKiosk, exitKiosk } from './kiosk'
 
@@ -97,7 +98,7 @@ export function DogMode({ onExit }: { onExit: () => void }) {
         setMode(a.mode)
         recorder.setContext({ mode: a.mode, videoId: null, tag: null })
         const nose = getSettings().noseCursor
-        senses.setFps(a.mode === 'rest' ? 1 : (a.mode === 'play' || a.mode === 'pick') && nose ? 10 : 2)
+        senses.setFps(a.mode === 'rest' ? 1 : nose ? (a.mode === 'watch' ? 8 : 10) : 2)
         if (a.mode === 'rest') { void finishPlay(); player.current?.stop(); ambient(true) } else ambient(a.mode === 'play' && !navigator.onLine)
         if (a.mode === 'play') {
           void finishPlay().then(() => {
@@ -198,7 +199,7 @@ export function DogMode({ onExit }: { onExit: () => void }) {
       <Player ref={player} volume={settings.volumeCap} dimmed={mode === 'rest'} onFail={onVideoFail} onPlaying={() => { failsInRow.current = 0 }} />
       {mode === 'rest' && <RestScene />}
       {mode === 'play' && (
-        <Game kind={game} noseZone={settings.noseCursor ? sense.zone : null} noseDwellMs={sense.zoneDwellMs} ignoreCorner={inGateCorner}
+        <Game kind={game} pointer={settings.noseCursor ? sense.nose : null} ignoreCorner={inGateCorner}
           onInteract={(t) => { lastInteraction.current = performance.now(); senses.noteTouch(); if (t) recorder.noteTouch(t.nx, t.ny); if (playing.current) playing.current.touches++ }} />
       )}
       {mode === 'pick' && picks.length === 2 && (
@@ -206,7 +207,10 @@ export function DogMode({ onExit }: { onExit: () => void }) {
       )}
       {ripples.map((r) => <div key={r.id} className="ripple" style={{ left: r.x, top: r.y }} />)}
       {settings.devMode && settings.showHud && <Hud s={sense} mode={mode} />}
-      {settings.devMode && sense.nose && <div className="nose-dot" style={{ left: `${sense.nose.x * 100}%`, top: `${sense.nose.y * 100}%` }} />}
+      {settings.noseCursor && settings.showCursor && mode !== 'rest' && (
+        <div className={`dog-cursor ${sense.nose ? '' : 'lost'}`} style={sense.nose ? { transform: `translate(${sense.nose.x * 100}vw, ${sense.nose.y * 100}vh)` } : undefined} />
+      )}
+      {settings.showMonitor && <AttentionMonitor s={sense} mode={mode} />}
       <div className={`pip pip-${pip}`} />
       <OwnerGate onOpen={onExit} />
     </div>

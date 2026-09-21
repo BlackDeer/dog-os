@@ -10,7 +10,7 @@ const CHUNK_SEC = 120, SNIPPET_SEC = 10, SNIPPET_MAX_SEC = 30, SNIPPET_GAP_SEC =
 
 export interface Context { mode: string; videoId: string | null; tag: string | null }
 type TimelineEntry =
-  | { t: number; type: 'pose'; mode: string; videoId: string | null; att: number; arousal: string; score: number; box?: number[]; kpts?: number[][] }
+  | { t: number; type: 'pose'; mode: string; videoId: string | null; att: number; arousal: string; score: number; ptr?: number[]; box?: number[]; kpts?: number[][] }
   | { t: number; type: 'touch'; x: number; y: number; mode: string }
   | { t: number; type: 'context'; mode: string; videoId: string | null; tag: string | null }
 
@@ -81,6 +81,7 @@ class ClipRecorder {
     const r = (v: number) => +v.toFixed(4)
     this.timeline.push({
       t: this.now(), type: 'pose', mode: this.ctx.mode, videoId: this.ctx.videoId, att: r(st.attention), arousal: st.arousal, score: r(st.pose?.score ?? 0),
+      ptr: st.nose ? [r(st.nose.x), r(st.nose.y)] : undefined,
       box: st.pose ? [r(st.pose.box.x), r(st.pose.box.y), r(st.pose.box.w), r(st.pose.box.h)] : undefined,
       kpts: st.pose?.kpts.map((k) => [r(k.x), r(k.y), +k.c.toFixed(2)]),
     })

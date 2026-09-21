@@ -285,8 +285,15 @@ It is for the owner glancing across the room. Nothing else human-readable appear
   network, dog mode falls back to games plus a bundled ambient loop over the REST animation.
 - **Targets**: minimum 35% of the short edge, high contrast blue/yellow on near-black, always moving a
   little, since motion is what a dog's eye picks up. Never near the owner-gate corner.
-- **The nose cursor is invisible to the dog** by default (a visible dot becomes prey and they chase their
-  own cursor). Visible only in dev mode and calibration.
+- **The pointer is visible to the dog** (owner's call, 2026-09-21; setting *Show the pointer to the dog*, on by
+  default). A 9 vmin blue ring with a yellow core, gliding between model updates. It shows where the model
+  thinks the dog is pointing: nose position in front of the screen, pushed further by head turn relative to
+  the learned neutral (`pointAt`). The risk noted earlier stands, that a dot which follows the head can
+  become prey; watch for Niles chasing it, and turn it off if he does. With the pointer on, sensing runs at
+  8–10 fps instead of 2, so expect more heat.
+- **Live attention monitor** (temporary, for pre-screening; setting, on by default): top-right panel with the
+  mirrored camera view, box and head keypoints, presence state, attention bar, a 45 s attention trace, arousal,
+  fps and inference time. It ignores touches, so the owner gate underneath still works.
 - **Owner gate**: hold the top-right corner 3 s. A thin ring fills as you hold so you know it's working,
   then a one-line sum ("7 + 5 = ?") with three big answers. Wrong answer or 10 s idle drops back to dog
   mode without a sound. The ring is the only affordance and it appears only under a held finger.
@@ -350,6 +357,27 @@ because it gets used at arm's length on a mounted phone.
   a dot on the dog's nose → start. Nose calibration is offered later, after the first session.
 - **Tone**: plain sentences, no gamified badges for the human, no notifications. The app is for the dog;
   the owner UI should feel like a baby monitor's companion app.
+
+### Open question: how does a dog "click"?
+
+The pointer gives hover. A click needs a second, deliberate signal that a dog can learn and that doesn't fire by
+accident. Candidates, in the order worth trying:
+
+1. **Boop the glass.** Camera for hover, touchscreen for click. Already works, zero false positives, and the
+   touch-target exercise teaches it. Limit: at touch range the face leaves the camera's view, so the click lands
+   where the nose touches, not where the pointer was. For big targets that is the same place.
+2. **Dwell.** Hold the pointer on a target (400 ms in Bop today). No training needed, but it's the Midas-touch
+   problem: looking is clicking. Fine for games, wrong for anything with consequences. A shrinking ring around
+   the pointer would make the countdown visible.
+3. **Lean in.** A quick increase in eye/ear distance (the head surging toward the screen) while the pointer is
+   on a target. Natural for a dog that wants something, measurable with the current model, no contact needed.
+   Needs a per-dog threshold and real footage to tune; the recorder already logs what's needed (`ptr`, keypoints).
+4. **Bark or huff** via the microphone (YAMNet-class model). Hands-free and unambiguous, but it rewards barking,
+   which most owners don't want.
+5. **Paw or hardware button.** A big Bluetooth/USB button on the floor is how dog "talking buttons" work and is
+   the most reliable option if the screen itself isn't the target.
+
+Recommendation: ship 1 + 2 (done), prototype 3 once there are clips of Niles approaching the screen.
 
 ## Architecture
 

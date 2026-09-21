@@ -22,7 +22,9 @@ export function SettingsScreen({ go }: { go: (s: Screen) => void }) {
       <label className="row between"><span>Only play bundled clips (no YouTube, no ads)</span><input type="checkbox" checked={s.fileOnly} onChange={bool('fileOnly')} /></label>
       <hr />
       <p className="muted small">Experimental</p>
-      <label className="row between"><span>Nose cursor</span><input type="checkbox" checked={s.noseCursor} onChange={bool('noseCursor')} /></label>
+      <label className="row between"><span>Nose pointer (camera guesses where the dog is pointing)</span><input type="checkbox" checked={s.noseCursor} onChange={bool('noseCursor')} /></label>
+      <label className="row between"><span>Show the pointer to the dog</span><input type="checkbox" checked={s.showCursor} disabled={!s.noseCursor} onChange={bool('showCursor')} /></label>
+      <label className="row between"><span>Live attention monitor in dog mode</span><input type="checkbox" checked={s.showMonitor} onChange={bool('showMonitor')} /></label>
       <button className="row link" onClick={() => go('calibrate')}><span>Calibrate nose</span><span>→</span></button>
       <label className="row between"><span>Pick screen (dog chooses between two)</span><input type="checkbox" checked={s.pickScreen} onChange={bool('pickScreen')} /></label>
       <hr />

@@ -13,7 +13,9 @@ export interface Settings {
   rotateAfterSec: number
   preset: Preset
   fileOnly: boolean
-  noseCursor: boolean
+  noseCursor: boolean     // camera pointing as an input
+  showCursor: boolean     // draw the pointer where the dog can see it
+  showMonitor: boolean    // live attention readout, top-right of dog mode (temporary, for pre-screening)
   pickScreen: boolean
   record: boolean
   recordMode: 'auto' | 'full' | 'snippets'
@@ -29,7 +31,7 @@ export interface Settings {
 
 export const DEFAULTS: Settings = {
   dogName: 'Niles', sessionMin: 30, restMin: 60, quietOn: true, quietStart: '22:00', quietEnd: '07:00',
-  volumeCap: 0.5, rotateAfterSec: 45, preset: 'calm', fileOnly: false, noseCursor: false, pickScreen: false,
+  volumeCap: 0.5, rotateAfterSec: 45, preset: 'calm', fileOnly: false, noseCursor: true, showCursor: true, showMonitor: true, pickScreen: false,
   record: false, recordMode: 'auto', recordAudio: false, storageCapMB: 500, mountNote: '',
   devMode: false, showHud: false, calibration: DEFAULT_CAL, neutralYaw: null, wizardDone: false,
 }
@@ -39,7 +41,12 @@ let current: Settings = load()
 const listeners = new Set<() => void>()
 
 function load(): Settings {
-  try { return { ...DEFAULTS, ...JSON.parse(localStorage.getItem(KEY) ?? '{}') } } catch { return { ...DEFAULTS } }
+  try {
+    const stored = JSON.parse(localStorage.getItem(KEY) ?? '{}')
+    // settings saved before the visible cursor existed had the nose cursor off by default; it is on now
+    if (!('showCursor' in stored)) delete stored.noseCursor
+    return { ...DEFAULTS, ...stored }
+  } catch { return { ...DEFAULTS } }
 }
 
 export const getSettings = () => current

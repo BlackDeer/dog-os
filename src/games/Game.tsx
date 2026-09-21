@@ -2,20 +2,19 @@ import { useEffect, useRef, useState } from 'react'
 import { boing, chime, squeak } from '../audio/sounds'
 import { hitTest } from '../input/hitTest'
 import { useDogTouch, type DogTouch } from '../input/useDogTouch'
-import { sameZone, zoneOf, type Zone } from '../sensing/noseZones'
 
 export type GameKind = 'bop' | 'chase'
-interface Props { kind: GameKind; noseZone: Zone | null; noseDwellMs: number; onInteract: (t: DogTouch | null) => void; ignoreCorner: (x: number, y: number, w: number, h: number) => boolean }
+interface Props { kind: GameKind; pointer: { x: number; y: number } | null; onInteract: (t: DogTouch | null) => void; ignoreCorner: (x: number, y: number, w: number, h: number) => boolean }
 
 const BLUE = '#3a86ff', YELLOW = '#ffd23f'
 interface Particle { x: number; y: number; vx: number; vy: number; life: number; color: string }
 
 /** Bop: touch (or nose-dwell on) the drifting critter. Chase: a ball that flees contact. No fail states. */
-export function Game({ kind, noseZone, noseDwellMs, onInteract, ignoreCorner }: Props) {
+export function Game({ kind, pointer, onInteract, ignoreCorner }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [treat, setTreat] = useState(false)
-  const sim = useRef({ x: 0, y: 0, vx: 0, vy: 0, r: 60, speed: 90, hits: 0, misses: 0, squash: 0, hue: 0, parts: [] as Particle[], lastNoseBop: 0, w: 0, h: 0 })
-  const nose = useRef({ zone: noseZone, dwell: noseDwellMs }); nose.current = { zone: noseZone, dwell: noseDwellMs }
+  const sim = useRef({ x: 0, y: 0, vx: 0, vy: 0, r: 60, speed: 90, hits: 0, misses: 0, squash: 0, hue: 0, parts: [] as Particle[], lastNoseBop: 0, hoverSince: 0, w: 0, h: 0 })
+  const nose = useRef(pointer); nose.current = pointer
 
   const burst = (x: number, y: number, color: string) => {
     for (let i = 0; i < 18; i++) { const a = Math.random() * Math.PI * 2, v = 120 + Math.random() * 260; sim.current.parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, color }) }
@@ -66,17 +65,17 @@ export function Game({ kind, noseZone, noseDwellMs, onInteract, ignoreCorner }: 
     resize(); addEventListener('resize', resize)
     const frame = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000); last = now
-      // nose zones as a second input
+      // the camera pointer as a second input: hovering the critter for 400 ms bops it; the ball flees the pointer
       const n = nose.current
-      if (n.zone && now - s.lastNoseBop > 1500) {
-        const here = zoneOf(s.x / s.w, s.y / s.h)
-        if (kind === 'bop' && sameZone(here, n.zone) && n.dwell >= 400) { s.lastNoseBop = now; onInteract(null); bop() }
-        if (kind === 'chase' && sameZone(here, n.zone)) {
-          s.lastNoseBop = now; onInteract(null)
-          const cx = ((n.zone.col + 0.5) / 3) * s.w, cy = ((n.zone.row + 0.5) / 2) * s.h, dx = s.x - cx || 1, dy = s.y - cy || 1, d = Math.hypot(dx, dy)
-          s.vx += (dx / d) * 380; s.vy += (dy / d) * 380; boing(); bop()
+      if (n) {
+        const px = n.x * s.w, py = n.y * s.h, dx = s.x - px, dy = s.y - py, d = Math.hypot(dx, dy) || 1
+        const over = d < s.r * 1.6
+        s.hoverSince = over ? s.hoverSince || now : 0
+        if (now - s.lastNoseBop > 1500) {
+          if (kind === 'bop' && over && now - s.hoverSince >= 400) { s.lastNoseBop = now; s.hoverSince = 0; onInteract(null); bop() }
+          if (kind === 'chase' && d < s.r * 2) { s.lastNoseBop = now; onInteract(null); s.vx += (dx / d) * 380; s.vy += (dy / d) * 380; boing(); bop() }
         }
-      }
+      } else s.hoverSince = 0
       if (kind === 'chase') { s.vx *= 1 - 0.9 * dt; s.vy *= 1 - 0.9 * dt; const v = Math.hypot(s.vx, s.vy); if (v < 40) { const a = Math.random() * 6.28; s.vx += Math.cos(a) * 30; s.vy += Math.sin(a) * 30 } }
       s.x += s.vx * dt; s.y += s.vy * dt
       if (s.x < s.r) { s.x = s.r; s.vx = Math.abs(s.vx) } if (s.x > s.w - s.r) { s.x = s.w - s.r; s.vx = -Math.abs(s.vx) }

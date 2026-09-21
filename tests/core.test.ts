@@ -5,7 +5,7 @@ import { centroid, cosine, decodeF16, encodeF16, normalize } from '../src/brain/
 import { TouchGate, hitTest } from '../src/input/hitTest'
 import { ArousalTracker, Ema, attentionScore, features, presence, reward } from '../src/sensing/attention'
 import { decodePose, letterbox } from '../src/sensing/decode'
-import { DEFAULT_CAL, ZoneTracker, noseToScreen } from '../src/sensing/noseZones'
+import { DEFAULT_CAL, ZoneTracker, noseToScreen, pointAt } from '../src/sensing/noseZones'
 import type { DogPose } from '../src/sensing/types'
 import { parseYouTubeId } from '../src/content/catalog'
 import { evictionOrder, type ClipRow } from '../src/recorder/clipStore'
@@ -69,6 +69,11 @@ describe('attention', () => {
 describe('nose zones', () => {
   it('mirrors: a nose at image-right is at screen-left', () => {
     expect(noseToScreen(DEFAULT_CAL.xLeft, 0.5).x).toBeCloseTo(0, 5); expect(noseToScreen(DEFAULT_CAL.xRight, 0.5).x).toBeCloseTo(1, 5); expect(noseToScreen(0.5, 0.5).x).toBeCloseTo(0.5, 5)
+  })
+  it('a turned head pushes the pointer further the way it is turned, relative to neutral', () => {
+    const straight = pointAt(0.5, 0.5, 0.1, 0.1).x, right = pointAt(0.5, 0.5, 0.5, 0.1).x, left = pointAt(0.5, 0.5, -0.3, 0.1).x
+    expect(straight).toBeCloseTo(0.5); expect(right).toBeGreaterThan(0.65); expect(left).toBeLessThan(0.35)
+    expect(pointAt(DEFAULT_CAL.xRight, 0.5, 2, 0).x).toBe(1)   // clamped to the screen
   })
   it('holds a zone through jitter at the boundary', () => {
     const z = new ZoneTracker(0.08)

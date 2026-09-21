@@ -1,7 +1,7 @@
 // Turns raw pose frames into what the rest of the app consumes: attention, arousal, presence, nose zone.
 import { cameraVideo } from './camera'
 import { ArousalTracker, Ema, RunningMedian, attentionScore, features, presence, reward } from './attention'
-import { DEFAULT_CAL, ZoneTracker, noseToScreen, type NoseCalibration, type Zone } from './noseZones'
+import { DEFAULT_CAL, ZoneTracker, pointAt, type NoseCalibration, type Zone } from './noseZones'
 import { OneEuro } from './oneEuro'
 import { getSettings } from '../store/settings'
 import { KP, type Arousal, type DogPose, type Presence } from './types'
@@ -102,7 +102,7 @@ class Senses {
     const dt = this.prevT ? Math.max(0.01, (now - this.prevT) / 1000) : 0.5
     this.prevT = now
     const pose = m.pose ?? null
-    let attRaw = 0, motion = 0, yaw = this.state.yaw, nose: SenseState['nose'] = null, noseConf = 0
+    let attRaw = 0, motion = 0, yaw = this.state.yaw, nose: SenseState['nose'] = null, noseConf = 0, neutralYaw = this.calibratedNeutralYaw ?? 0
     if (pose) {
       this.lastDogT = performance.now()
       const f = features(pose, this.prevPose, dt)
@@ -110,13 +110,13 @@ class Senses {
         motion = f.motion; yaw = f.yaw
         if (f.visible > 0.5 && f.motion < 0.5) this.neutral.push(f.yaw)
         // learned neutral is clamped: the lens is never far off-axis, so a dog that mostly looks away must not become "neutral"
-        const neutralYaw = this.calibratedNeutralYaw ?? (this.neutral.count > 30 ? Math.max(-0.25, Math.min(0.25, this.neutral.value)) : 0)
+        neutralYaw = this.calibratedNeutralYaw ?? (this.neutral.count > 30 ? Math.max(-0.25, Math.min(0.25, this.neutral.value)) : 0)
         attRaw = attentionScore(f, neutralYaw)
       }
       const n = pose.kpts[KP.nose]
       noseConf = n.c
       if (n.c > 0.4) {
-        const s = noseToScreen(n.x, n.y, this.calibration)
+        const s = pointAt(n.x, n.y, f && f.visible >= 0.35 ? yaw : neutralYaw, neutralYaw, this.calibration)
         nose = { x: this.fx.filter(s.x, now / 1000), y: this.fy.filter(s.y, now / 1000) }
         this.zones.update(nose.x, nose.y, now)
       }

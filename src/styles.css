@@ -94,7 +94,18 @@ header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; } he
 @keyframes ripple { from { transform: scale(.2); opacity: .9; } to { transform: scale(1.6); opacity: 0; } }
 .pip { position: absolute; left: 10px; bottom: 10px; width: 6px; height: 6px; border-radius: 50%; background: #3a3f4b; pointer-events: none; } .pip-dog { background: #1f7a3f; } .pip-rec { background: #c0392b; }
 .hud { position: absolute; left: 8px; top: 8px; margin: 0; font: 12px/1.4 ui-monospace, monospace; color: #9fe; background: rgba(0,0,0,.55); padding: 6px 8px; border-radius: 8px; pointer-events: none; }
-.nose-dot { position: absolute; width: 22px; height: 22px; margin: -11px; border-radius: 50%; background: var(--yellow); opacity: .8; pointer-events: none; }
+/* the dog's pointer: big, blue-on-yellow (the two colors a dog separates best), gliding between model updates */
+.dog-cursor { position: absolute; left: 0; top: 0; width: 9vmin; height: 9vmin; margin: -4.5vmin 0 0 -4.5vmin; border-radius: 50%; pointer-events: none; z-index: 3;
+  background: radial-gradient(circle, var(--yellow) 0 34%, transparent 36%); border: .9vmin solid var(--blue); box-shadow: 0 0 0 .5vmin rgba(0,0,0,.55), 0 0 3vmin rgba(58,134,255,.6);
+  transition: transform .16s linear, opacity .6s ease; opacity: .92; will-change: transform; }
+.dog-cursor.lost { opacity: 0; }
+.monitor { position: absolute; right: 8px; top: 8px; width: 208px; padding: 8px; border-radius: 12px; background: rgba(5,7,13,.78); color: #dfe6f5; font: 11px/1.35 ui-monospace, monospace; pointer-events: none; z-index: 4; display: flex; flex-direction: column; gap: 5px; }
+.monitor-view { width: 192px; height: 144px; border-radius: 8px; background: #000; display: block; }
+.monitor-chart { width: 192px; height: 44px; display: block; }
+.monitor-state { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #8a94ab; }
+.st-attending { color: var(--yellow); } .st-present { color: var(--blue); } .st-touching { color: #fff; }
+.monitor-bar { position: relative; height: 16px; border-radius: 8px; background: #1d2538; overflow: hidden; } .monitor-bar i { position: absolute; inset: 0 auto 0 0; background: var(--yellow); transition: width .3s; } .monitor-bar em { position: relative; font-style: normal; padding-left: 6px; line-height: 16px; color: #fff; text-shadow: 0 0 3px #000; }
+.monitor-meta { color: #8a94ab; }
 
 .gate-corner { position: absolute; right: 0; top: 0; width: 16vmin; height: 16vmin; touch-action: none; } .gate-ring { position: absolute; right: 12%; top: 12%; width: 60%; height: 60%; }
 .gate-ask { position: absolute; inset: 0; background: rgba(5,7,13,.92); display: grid; place-content: center; gap: 22px; text-align: center; cursor: auto; z-index: 5; }
