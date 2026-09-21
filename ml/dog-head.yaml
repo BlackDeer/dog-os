@@ -1,0 +1,31 @@
+path: /Users/yohan/Github/dog-os/ml/datasets/dog-head
+train: images/train
+val: images/val
+kpt_shape:
+- 10
+- 3
+flip_idx:
+- 0
+- 2
+- 1
+- 4
+- 3
+- 6
+- 5
+- 7
+- 8
+- 9
+names:
+  0: dog
+kpt_names:
+  0:
+  - nose
+  - left_eye
+  - right_eye
+  - left_ear_base
+  - right_ear_base
+  - left_ear_tip
+  - right_ear_tip
+  - chin
+  - throat
+  - withers

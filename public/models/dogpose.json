@@ -1,6 +1,6 @@
 {
   "model": "dogpose.onnx",
-  "baseModel": "unknown",
+  "baseModel": "yolo26n-pose.pt",
   "opset": 17,
   "ops": [
     "Add",
@@ -137,6 +137,17 @@
     "eyes": "supervised only by AP-10K canids (~1k images); ears/chin only by Dog-Pose; nose by both.",
     "throat,withers": "never annotated in any training source: ignore x,y and confidence for these two."
   },
-  "recommendedConfThreshold": 0.35,
-  "recommendedKeypointConfThreshold": 0.5
+  "recommendedConfThreshold": 0.5,
+  "recommendedKeypointConfThreshold": 0.5,
+  "files": {
+    "fp32": {
+      "file": "dogpose.onnx",
+      "mb": 10.814
+    },
+    "int8": {
+      "file": "dogpose.int8.onnx",
+      "mb": 3.052,
+      "note": "onnxruntime dynamic int8 (ConvInteger/MatMulInteger/DynamicQuantizeLinear). Same input, output and decoder. Accuracy on val matches fp32. Loads and runs in onnxruntime-web 1.22 WASM (checked in Node: same speed as fp32, so the only gain is download size). Not for the WebGPU EP. Default to fp32."
+    }
+  }
 }

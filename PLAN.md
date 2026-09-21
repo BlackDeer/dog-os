@@ -91,6 +91,15 @@ This file is the spec for the build one-shot. Build everything in "Scope", in th
   augmentation; (c) evaluate on the owner's own clips (Scope 7) with
   `ml/eval_clips.py`, which writes an overlay video to `ml/out/`. If the nose dot isn't on the nose in those clips,
   stop and fix the model before building anything that depends on it.
+- **As built (2026-09-20)**: `yolo26n-pose`, NMS-free export, 12 epochs at 320 px on MPS in 72 min; 10.8 MB
+  fp32 ONNX (int8 kept in `ml/models/`, no faster under WASM). Val nose error 6.1 px mean / 3.2 px median at
+  320 px; dog detected in 92% of dog images, 0.9% false alarms on empty frames, **26% on frames with another
+  animal** (cats, teddies). Three things the plan had wrong: Dog-Pose has **no eye labels**, so eye supervision
+  comes from ~1k canid images in AP-10K, via a patched keypoint loss that ignores never-labeled points
+  (`ml/partial_labels.py`, pinned to Ultralytics 8.4.157); `throat` and `withers` are labeled nowhere and are
+  dead outputs; and no-dog COCO images had to be added, because a model trained only on dogs sees a dog in a
+  blank frame. Since eyes are the weakest points, attention falls back to the ear bases when eyes drop out.
+  Full numbers: `ml/REPORT.md`. Real-world accuracy on front-camera footage: still unknown.
 - **Training, on the Mac** (`ml/train_pose.py`): `pip install ultralytics`, then
   `YOLO("yolo26n-pose.pt").train(data="dog-head.yaml", epochs=100, imgsz=320, device="mps")`.
   The dataset auto-downloads. Train at 320 px because the phone runs it at 320 px. Export with
@@ -402,7 +411,8 @@ be cut without breaking what came before.
 
 ## Licensing (fine for a personal prototype, not for selling)
 
-- Dog-Pose images come from Stanford Dogs / ImageNet: research use only.
+- Dog-Pose images come from Stanford Dogs / ImageNet: research use only. AP-10K (eye labels) is listed as
+  CC BY 4.0. The no-dog negatives are COCO val2017 images (Flickr photos under mixed CC licenses).
 - Ultralytics code and the weights it produces are AGPL-3.0 unless you buy their enterprise license.
 - TinyCLIP is MIT.
 - Before this becomes a product, retrain the pose model on footage you own (Niles plus the purchased camera

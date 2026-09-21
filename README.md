@@ -48,7 +48,7 @@ while it runs, every clip can be reviewed and deleted, and nothing leaves the de
 
 ## Licensing caveats
 
-Fine for a personal prototype, not for selling: the pose model is trained on the Dog-Pose dataset (Stanford Dogs /
-ImageNet images, research use) with Ultralytics (AGPL-3.0). Covering the YouTube player breaks YouTube's embed terms.
+Fine for a personal prototype, not for selling: the pose model is trained on Dog-Pose (Stanford Dogs / ImageNet images,
+research use), AP-10K and COCO negatives, with Ultralytics (AGPL-3.0). Accuracy and caveats: [ml/REPORT.md](ml/REPORT.md). Covering the YouTube player breaks YouTube's embed terms.
 See PLAN.md → Licensing for the path out (own footage, Apache-licensed trainer, self-hosted content). Bundled clips
 are public domain or CC BY; credits are listed in Library → Credits.

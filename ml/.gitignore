@@ -1,0 +1,10 @@
+.venv/
+.ultralytics/
+datasets/
+data/
+inbox/
+out/
+runs/
+weights/
+*.pt
+__pycache__/

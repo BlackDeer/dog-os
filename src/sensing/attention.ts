@@ -15,21 +15,26 @@ const clamp01 = (v: number) => Math.max(0, Math.min(1, v))
 const MIN_C = 0.35
 
 export function features(pose: DogPose, prev: DogPose | null, dtSec: number): AttentionFeatures | null {
-  const n = pose.kpts[KP.nose], le = pose.kpts[KP.left_eye], re = pose.kpts[KP.right_eye]
+  const n = pose.kpts[KP.nose]
+  let le = pose.kpts[KP.left_eye], re = pose.kpts[KP.right_eye]
   if (!n || !le || !re) return null
+  let scale = 1
+  // Eyes are the weakest keypoints (only ~1k training images label them). When they drop out, the ear bases,
+  // which are well supervised, stand in as the head's left/right reference; ears sit ~1.8× wider than eyes.
+  const lb = pose.kpts[KP.left_ear_base], rb = pose.kpts[KP.right_ear_base]
+  if (Math.min(le.c, re.c) < MIN_C && lb && rb && Math.min(lb.c, rb.c) >= MIN_C) { le = lb; re = rb; scale = 0.55 }
   const visible = Math.min(n.c, le.c, re.c)
   const ex = re.x - le.x, ey = re.y - le.y
-  const eyeDist = Math.hypot(ex, ey)
-  if (eyeDist < 1e-4) return { visible: 0, yaw: 0, roll: 0, proximity: 0, motion: 0 }
+  const eyeDist = Math.hypot(ex, ey) * scale
   // project nose onto the eye line; 0 at the midpoint, ±0.5 at either eye
   const mx = (le.x + re.x) / 2, my = (le.y + re.y) / 2
-  const yaw = ((n.x - mx) * ex + (n.y - my) * ey) / (eyeDist * eyeDist)
+  const yaw = (((n.x - mx) * ex + (n.y - my) * ey) / (ex * ex + ey * ey)) / scale   // in eye-distance units, whichever pair was used
   let roll = Math.abs(Math.atan2(ey, ex))
   if (roll > Math.PI / 2) roll = Math.PI - roll   // left/right eye order depends on mirroring
   let motion = 0
   if (prev && dtSec > 0) {
     let sum = 0, cnt = 0
-    for (const i of [KP.nose, KP.left_eye, KP.right_eye]) {
+    for (const i of [KP.nose, KP.left_eye, KP.right_eye, KP.left_ear_base, KP.right_ear_base]) {
       const a = pose.kpts[i], b = prev.kpts[i]
       if (a.c > MIN_C && b.c > MIN_C) { sum += Math.hypot(a.x - b.x, a.y - b.y); cnt++ }
     }

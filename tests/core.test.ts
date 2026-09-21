@@ -32,7 +32,7 @@ describe('hit testing', () => {
 const pose = (nx: number, opts: { c?: number; eyeDist?: number; cx?: number } = {}): DogPose => {
   const c = opts.c ?? 0.9, d = opts.eyeDist ?? 0.1, cx = opts.cx ?? 0.5
   const k = (x: number, y: number) => ({ x, y, c })
-  return { box: { x: 0.2, y: 0.2, w: 0.6, h: 0.6 }, score: 0.9, kpts: [k(cx + nx * d, 0.55), k(cx - d / 2, 0.45), k(cx + d / 2, 0.45), ...Array(7).fill(k(0.5, 0.5))] }
+  return { box: { x: 0.2, y: 0.2, w: 0.6, h: 0.6 }, score: 0.9, kpts: [k(cx + nx * d, 0.55), k(cx - d / 2, 0.45), k(cx + d / 2, 0.45), ...Array(7).fill(k(cx, 0.5))] }
 }
 
 describe('attention', () => {
@@ -43,6 +43,14 @@ describe('attention', () => {
   it('uses the learned neutral yaw instead of assuming the lens is centered', () => {
     const f = features(pose(0.3), null, 0.5)
     expect(attentionScore(f, 0.3)).toBeGreaterThan(attentionScore(f, 0) * 2)
+  })
+  it('falls back to the ear bases when the eyes are not found', () => {
+    const p = pose(0); p.kpts[1].c = 0.1; p.kpts[2].c = 0.1
+    p.kpts[3] = { x: 0.5 - 0.09, y: 0.4, c: 0.9 }; p.kpts[4] = { x: 0.5 + 0.09, y: 0.4, c: 0.9 }
+    const f = features(p, null, 0.5)!
+    expect(f.visible).toBeGreaterThan(0.8); expect(f.proximity).toBeCloseTo(0.099, 2); expect(attentionScore(f)).toBeGreaterThan(0.6)
+    const turned = pose(0.4); turned.kpts[1].c = 0.1; turned.kpts[2].c = 0.1; turned.kpts[3] = p.kpts[3]; turned.kpts[4] = p.kpts[4]
+    expect(attentionScore(features(turned, null, 0.5))).toBeLessThan(0.2)
   })
   it('is zero when the face is not confidently visible', () => expect(attentionScore(features(pose(0, { c: 0.2 }), null, 0.5))).toBe(0))
   it('drops with distance', () => expect(attentionScore(features(pose(0, { eyeDist: 0.03 }), null, 0.5))).toBeLessThan(attentionScore(features(pose(0), null, 0.5))))
