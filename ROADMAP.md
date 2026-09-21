@@ -2,6 +2,9 @@
 
 Where Dog OS goes after the v0.1 build. `PLAN.md` is the record of what was built and why; this file is what's next.
 
+Background reading that shaped this: [`research/`](research/README.md) (canine perception and behavior, dogs and
+technology, and what it changes in the app).
+
 ## The loop we want
 
 ```

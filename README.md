@@ -3,7 +3,7 @@
 A screen for dogs. Calm channels and two simple games, as a PWA that runs on a
 spare phone, a tablet or a laptop. First user: Niles.
 
-**App:** https://blackdeer.github.io/dog-os/ · **What was built and why:** [PLAN.md](PLAN.md) · **What's next:** [ROADMAP.md](ROADMAP.md)
+**App:** https://blackdeer.github.io/dog-os/ · **What was built and why:** [PLAN.md](PLAN.md) · **What's next:** [ROADMAP.md](ROADMAP.md) · **What the science says:** [research/](research/README.md)
 
 ## What it does
 
