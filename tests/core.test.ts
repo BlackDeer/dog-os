@@ -6,6 +6,7 @@ import { TouchGate, hitTest } from '../src/input/hitTest'
 import { ArousalTracker, Ema, attentionScore, features, presence, reward } from '../src/sensing/attention'
 import { decodePose, letterbox } from '../src/sensing/decode'
 import { DEFAULT_CAL, ZoneTracker, noseToScreen, pointAt } from '../src/sensing/noseZones'
+import { PointerFilter } from '../src/sensing/pointerFilter'
 import type { DogPose } from '../src/sensing/types'
 import { parseYouTubeId } from '../src/content/catalog'
 import { evictionOrder, type ClipRow } from '../src/recorder/clipStore'
@@ -73,7 +74,7 @@ describe('nose zones', () => {
   })
   it('a turned head pushes the pointer further the way it is turned, relative to neutral', () => {
     const straight = pointAt(0.5, 0.5, 0.1, 0.1).x, right = pointAt(0.5, 0.5, 0.5, 0.1).x, left = pointAt(0.5, 0.5, -0.3, 0.1).x
-    expect(straight).toBeCloseTo(0.5); expect(right).toBeGreaterThan(0.65); expect(left).toBeLessThan(0.35)
+    expect(straight).toBeCloseTo(0.5); expect(right).toBeGreaterThan(0.58); expect(left).toBeLessThan(0.42)
     expect(pointAt(DEFAULT_CAL.xRight, 0.5, 2, 0).x).toBe(1)   // clamped to the screen
   })
   it('holds a zone through jitter at the boundary', () => {
@@ -82,6 +83,27 @@ describe('nose zones', () => {
     expect(z.update(0.35, 0.2, 100).col).toBe(0)   // just over the line: hysteresis holds
     expect(z.update(0.50, 0.2, 200).col).toBe(1)
     expect(z.dwellMs(700)).toBe(500)
+  })
+})
+
+describe('pointer filter', () => {
+  it('ignores a one-frame flip to a different reading of the face', () => {
+    const f = new PointerFilter(); let t = 0, out = { x: 0, y: 0 }
+    for (let i = 0; i < 10; i++) out = f.update({ x: 0.3, y: 0.5 }, (t += 110))!
+    const flipped = f.update({ x: 0.85, y: 0.5 }, (t += 110))!
+    expect(Math.abs(flipped.x - out.x)).toBeLessThan(0.02)
+  })
+  it('follows a real move within about half a second', () => {
+    const f = new PointerFilter(); let t = 0, out = { x: 0, y: 0 }
+    for (let i = 0; i < 10; i++) f.update({ x: 0.3, y: 0.5 }, (t += 110))
+    for (let i = 0; i < 8; i++) out = f.update({ x: 0.8, y: 0.5 }, (t += 110))!
+    expect(out.x).toBeGreaterThan(0.7)
+  })
+  it('holds through a brief dropout, then lets go', () => {
+    const f = new PointerFilter(); let t = 0
+    for (let i = 0; i < 6; i++) f.update({ x: 0.4, y: 0.4 }, (t += 110))
+    expect(f.update(null, (t += 110))).not.toBeNull(); expect(f.update(null, (t += 300))).not.toBeNull()
+    expect(f.update(null, (t += 400))).toBeNull()
   })
 })
 

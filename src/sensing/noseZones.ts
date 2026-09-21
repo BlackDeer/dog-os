@@ -21,7 +21,8 @@ export function noseToScreen(nx: number, ny: number, cal: NoseCalibration = DEFA
  * turned. Keypoint left/right are the dog's own, and a dog facing the screen shares the screen's left/right, so a
  * head turned toward its right eye (positive yaw) points further right. Coarse by nature: one lens, no depth.
  */
-export const YAW_GAIN = 0.5
+// Halved after the first field test: yaw was the noisiest input and carried no usable aim signal yet.
+export const YAW_GAIN = 0.25
 export function pointAt(nx: number, ny: number, yaw: number, neutralYaw: number, cal: NoseCalibration = DEFAULT_CAL): { x: number; y: number } {
   const base = noseToScreen(nx, ny, cal)
   const turn = Math.max(-0.6, Math.min(0.6, yaw - neutralYaw))

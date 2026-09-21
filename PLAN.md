@@ -358,6 +358,28 @@ because it gets used at arm's length on a mounted phone.
 - **Tone**: plain sentences, no gamified badges for the human, no notifications. The app is for the dog;
   the owner UI should feel like a baby monitor's companion app.
 
+### Field test 1 (2026-09-21): plush wolf on a MacBook, pointer test at three distances
+
+What the clips showed (`ml/analyze_pointer.py`, `ml/contact_sheet.py`, `tests/replay.test.ts`):
+- **Jerk came from the model changing its mind, not from smoothing.** On the toy it alternates between two
+  readings of the face: the right one, and one that takes a black bead eye for the nose and puts the "eyes" up
+  by the ears. Both come with ~0.96 confidence, so confidence can't separate them. Each flip threw the pointer
+  across the screen. A bead-eyed plush invites this more than a real dog should, but assume it can happen.
+- **Dropouts made it worse**: 18–36 per 45 s run, each one resetting the smoother so the pointer blinked and
+  re-snapped.
+- **Distance**: near and forearm range found the toy 95% and 72% of the time; at arm's length 11%. At 320 px
+  input a toy-sized head is ~40 px. The "prime zone" is close, centered and face-on.
+- **Accuracy could not be measured.** Nothing the model outputs correlated with the target (|r| < 0.2), and the
+  frames show why: the toy's pose barely differed between targets. Aiming a toy by hand doesn't produce the head
+  turn a dog makes, so this needs Niles, or a toy moved bodily to each spot.
+- **Fix shipped**: `PointerFilter` = median of the last 5 raw points (drops 1–2 frame flips) → One Euro with
+  heavier smoothing → hold the last point for 600 ms through dropouts. Yaw gain halved to 0.25. Replayed on
+  the three clips: 90th-percentile frame-to-frame jump 11.6 → 4.7% of screen width (near), 6.9 → 4.6 (forearm);
+  dropouts 18 → 0 and 36 → 5. Cost: roughly a quarter second more lag.
+- **Not fixed**: the wrong reading when it persists for more than a couple of frames, and far-range detection.
+  Candidates: run the model on a crop around the last box (2× effective resolution, same cost); label a few
+  hundred front-camera frames and retrain, which is what the recorder is for.
+
 ### Open question: how does a dog "click"?
 
 The pointer gives hover. A click needs a second, deliberate signal that a dog can learn and that doesn't fire by

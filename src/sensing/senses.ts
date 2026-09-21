@@ -2,7 +2,7 @@
 import { cameraVideo } from './camera'
 import { ArousalTracker, Ema, RunningMedian, attentionScore, features, presence, reward } from './attention'
 import { DEFAULT_CAL, ZoneTracker, pointAt, type NoseCalibration, type Zone } from './noseZones'
-import { OneEuro } from './oneEuro'
+import { PointerFilter } from './pointerFilter'
 import { getSettings } from '../store/settings'
 import { KP, type Arousal, type DogPose, type Presence } from './types'
 
@@ -51,7 +51,7 @@ class Senses {
   private arousal = new ArousalTracker()
   private neutral = new RunningMedian(300)
   private zones = new ZoneTracker()
-  private fx = new OneEuro(1.2, 0.05); private fy = new OneEuro(1.2, 0.05)
+  private pointer = new PointerFilter()
   private lastTouch = -Infinity
   private lastDogT = 0
   calibration: NoseCalibration = DEFAULT_CAL
@@ -126,11 +126,11 @@ class Senses {
         yawUsed = !!f && f.visible >= 0.35
         const s = pointAt(n.x, n.y, yawUsed ? yaw : neutralYaw, neutralYaw, this.calibration)
         rawNose = s
-        nose = { x: this.fx.filter(s.x, now / 1000), y: this.fy.filter(s.y, now / 1000) }
-        this.zones.update(nose.x, nose.y, now)
       }
     }
-    if (!nose) { this.zones.clear(); this.fx.reset(); this.fy.reset() }
+    // the filter holds through brief dropouts, so the pointer doesn't blink every time one frame loses the nose
+    nose = this.pointer.update(rawNose, now)
+    if (nose) this.zones.update(nose.x, nose.y, now); else this.zones.clear()
     this.prevPose = pose
     const attention = this.att.update(attRaw, dt)
     const arousal = this.arousal.update(pose ? motion : 0, now / 1000)
