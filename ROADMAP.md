@@ -70,6 +70,12 @@ keypoint sequences on those, to replace the hand-set geometry score.
   they aren't.
 - **Per-dog, with a shared prior** once there is more than one dog.
 
+**Done 2026-09-21: openers.** Sessions lead with two videos from a researched high-engagement set (other dogs
+first, then close-up animals with lateral movement), started at the second where the action begins. What
+grabs hardest also winds dogs up most, so Calm leads only with low-arousal openers, Everything and Games with
+low or medium, and only Bird TV leads with squirrels and barking playgroups. Ratings and offsets were judged
+from thumbnails and descriptions, not from watching; Niles's sessions are the real test.
+
 ### 5. Content availability
 YouTube is a prototype crutch: ads, embed terms, videos that vanish, no access to the frames. Ways out,
 cheapest first:

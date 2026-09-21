@@ -1,0 +1,839 @@
+{
+  "generatedAt": "2026-09-21",
+  "method": "YouTube ids taken from youtube.com search-result pages fetched this session; each verified via oEmbed (HTTP 200) and the watch page (playableInEmbed, isLiveContent, lengthSeconds). startAt estimated from the first YouTube storyboard sheet (one frame per 10 s) - not from watching with sound. File refs are Wikimedia Commons 480p VP9 transcodes taken from the videoinfo derivatives API and HEAD-checked; licence from Commons extmetadata.",
+  "candidates": [
+    {
+      "id": "dogs-shelter-playgroup-tuesdays",
+      "source": "youtube",
+      "ref": "NHZs8bMG4mE",
+      "title": "Dog TV Daycare for Tuesdays",
+      "channel": "Dog PlayGroup Stories",
+      "durationSec": 32435,
+      "tags": [
+        "dogs-playing"
+      ],
+      "features": [
+        "conspecifics",
+        "social-interaction",
+        "dog-level-camera",
+        "dog-vocalizations",
+        "fast-motion"
+      ],
+      "startAt": 10,
+      "arousalRisk": "high",
+      "why": "Dogs were the top-ranked screen subject in Donohue et al. 2024 (93% of watchers) and the most-watched test clip; close, dog-height play with real barking is the strongest attention-getter but the uploader itself warns of overstimulation.",
+      "notes": "Storyboard: dogs on screen from ~10 s.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "dog-park-dzone-saturday",
+      "source": "youtube",
+      "ref": "CWJZjdmtIk8",
+      "title": "Dog Park TV Saturday afternoon in the Dog Zone",
+      "channel": "Dzonevideo",
+      "durationSec": 4508,
+      "tags": [
+        "dogs-playing"
+      ],
+      "features": [
+        "conspecifics",
+        "social-interaction",
+        "natural-sound",
+        "screen-crossing-motion"
+      ],
+      "startAt": 20,
+      "arousalRisk": "medium",
+      "why": "Real dog-park footage of conspecifics moving across frame, matching the conspecific + horizontal-movement criteria used for the Wisconsin test videos.",
+      "notes": "Title cards for first ~20 s, then a quiet stretch of open field; action density in first 80 s is low - consider a later startAt after manual review.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "dog-park-bluff-creek",
+      "source": "youtube",
+      "ref": "gKyz_xClAH4",
+      "title": "Dog park at Bluff creek Los Angeles , relaxing ASMR 4K",
+      "channel": "I am franzi",
+      "durationSec": 1254,
+      "tags": [
+        "dogs-playing"
+      ],
+      "features": [
+        "conspecifics",
+        "social-interaction",
+        "natural-sound"
+      ],
+      "startAt": 60,
+      "arousalRisk": "medium",
+      "why": "Conspecifics in social play with ambient sound; dogs gaze longer at social-interaction scenes than non-social ones (Tornqvist et al. 2015).",
+      "notes": "First ~50 s is an empty park walk-in; dogs from ~60 s. Handheld camera.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "dog-park-japan-weimaraner-poodles",
+      "source": "youtube",
+      "ref": "ptiCuMpPhn0",
+      "title": "Dog TV - Dogs playing in the dog park",
+      "channel": "Backyard Dog Life Japan",
+      "durationSec": 1549,
+      "tags": [
+        "dogs-playing"
+      ],
+      "features": [
+        "conspecifics",
+        "social-interaction",
+        "low-camera",
+        "natural-sound"
+      ],
+      "startAt": 10,
+      "arousalRisk": "medium",
+      "why": "Low, static camera on a few dogs playing close to the lens - conspecifics large on screen with lateral movement.",
+      "notes": "Black frame at 0 s; play from ~10 s.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "dog-beach-slow-tv",
+      "source": "youtube",
+      "ref": "NfbKa8CQpuE",
+      "title": "Dog Beach - 2 Hour Slow TV",
+      "channel": "Rob Donkersloot",
+      "durationSec": 7256,
+      "tags": [
+        "dogs-playing",
+        "nature-sounds"
+      ],
+      "features": [
+        "conspecifics",
+        "screen-crossing-motion",
+        "static-camera",
+        "natural-sound"
+      ],
+      "startAt": 60,
+      "arousalRisk": "medium",
+      "why": "Locked-off wide shot with many dogs running horizontally through frame: static camera + horizontal subject motion are exactly the Wisconsin stimulus-selection criteria.",
+      "notes": "Title text at 10-20 s and sparse beach in first minute; dogs are small in frame (letterboxed ultra-wide). Better on a big screen than a phone.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "doggy-woods-calm-pack-walks",
+      "source": "youtube",
+      "ref": "5E7H9_5FKhc",
+      "title": "Daycare for Dogs 🐾 Calm Pack Walks | 12 Hours of Dog TV",
+      "channel": "Tv for dogs, brought to you by Doggy Woods Retreat",
+      "durationSec": 43140,
+      "tags": [
+        "dogs-playing",
+        "trees-forest"
+      ],
+      "features": [
+        "conspecifics",
+        "dog-level-camera",
+        "calm-locomotion"
+      ],
+      "startAt": 20,
+      "arousalRisk": "low",
+      "why": "Conspecifics at dog height walking calmly - keeps the top-ranked stimulus class (dogs) while avoiding chase/bark triggers.",
+      "notes": "Episode title overlay at ~10 s. Audio not reviewed.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "doggy-woods-12h-pack-walk",
+      "source": "youtube",
+      "ref": "bPAozKuCT1A",
+      "title": "Take a 12 hour pack walk with your dog through the forest at Doggy Woods Retreat!  Filmed for dogs!",
+      "channel": "Tv for dogs, brought to you by Doggy Woods Retreat",
+      "durationSec": 42205,
+      "tags": [
+        "dogs-playing",
+        "trees-forest"
+      ],
+      "features": [
+        "conspecifics",
+        "dog-level-camera",
+        "dog-vocalizations"
+      ],
+      "startAt": 120,
+      "arousalRisk": "medium",
+      "why": "Pack of dogs filmed from dog height in forest; conspecific content with movement.",
+      "notes": "Heavy on-screen text for roughly the first 80+ s (the text itself says barking and human voices are audible) - start later.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "virtual-dog-walk-harmony-hounds",
+      "source": "youtube",
+      "ref": "kv3ML8ckmj8",
+      "title": "[NO ADS] Dog TV for Dogs to Watch 🐕 Virtual Dog Walk with Nature Sounds 🌲 Videos for Dogs",
+      "channel": "Harmony Hounds - Relaxing Music for Dogs",
+      "durationSec": 36000,
+      "tags": [
+        "trees-forest",
+        "nature-sounds"
+      ],
+      "features": [
+        "optic-flow",
+        "conspecific-occasional",
+        "calm"
+      ],
+      "startAt": 10,
+      "arousalRisk": "low",
+      "why": "Low-arousal filler: forward-motion woodland walk with a dog intermittently ahead; movement was the most-cited attractant (90% of owners) but there is no prey/alarm trigger.",
+      "notes": "Black frame at 0 s. Has calming music per description, not pure natural sound.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "thedogcam-swiss-alps-dog-pov",
+      "source": "youtube",
+      "ref": "0B0Nc5i2h8E",
+      "title": "TheDogCam | 10hrs of Mountain Lake Virtual Dog Walks In The Swiss Alps 🐾🌊 GoPro DogTV",
+      "channel": "TheDogCam",
+      "durationSec": 36000,
+      "tags": [
+        "nature-sounds"
+      ],
+      "features": [
+        "dog-pov",
+        "conspecific-in-frame",
+        "optic-flow",
+        "calm"
+      ],
+      "startAt": 90,
+      "arousalRisk": "low",
+      "why": "Dog's-eye GoPro view with the dog's head in frame and continuous forward motion; calm conspecific content.",
+      "notes": "Text overlays during at least the first 80 s; humans frequently in frame.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "gopro-golden-fetch-river",
+      "source": "youtube",
+      "ref": "2hc5lDPwae8",
+      "title": "GoPro Dog Plays Fetch In River- Take A Ride On Golden Retrievers Back",
+      "channel": "Handsome Nature",
+      "durationSec": 1511,
+      "tags": [
+        "dogs-playing",
+        "nature-sounds"
+      ],
+      "features": [
+        "dog-pov",
+        "fetch",
+        "water-splash",
+        "fast-motion"
+      ],
+      "startAt": 0,
+      "arousalRisk": "medium",
+      "why": "Dog-back POV fetch in a river: toy-chase from the dog's perspective with splashing sound; action from the first seconds.",
+      "notes": "Very shaky camera; dog's back fills part of the frame. 25 min.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "sheep-calming-dinning",
+      "source": "youtube",
+      "ref": "WLlTLGgLqgY",
+      "title": "Dog TV Videos ~ Beautiful Calming Sheep Videos and Sounds ⭐ 8 HOURS of TV for Dogs ⭐",
+      "channel": "Paul Dinning",
+      "durationSec": 29837,
+      "tags": [
+        "farm"
+      ],
+      "features": [
+        "livestock",
+        "slow-motion-grazing",
+        "animal-sounds"
+      ],
+      "startAt": 50,
+      "arousalRisk": "low",
+      "why": "Livestock interested 64% of watcher dogs in Donohue et al. 2024; grazing sheep with bleats give animal content at low speed.",
+      "notes": "Sheep are distant until ~50 s. Herding breeds may fixate/stalk - treat as medium for them.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "red-squirrel-spectacular",
+      "source": "youtube",
+      "ref": "1rQZ0xnoYa4",
+      "title": "Best for Dogs: 10 hours of Red Squirrel Spectacular",
+      "channel": "Red Squirrel Studios",
+      "durationSec": 36000,
+      "tags": [
+        "squirrels",
+        "birds"
+      ],
+      "features": [
+        "small-prey-motion",
+        "close-up",
+        "erratic-motion",
+        "natural-sound"
+      ],
+      "startAt": 50,
+      "arousalRisk": "high",
+      "why": "Close-up squirrels with darting movement - squirrels interested 56% of watcher dogs and fast animate motion is a strong orienting cue, but this is prey-drive attention.",
+      "notes": "Black frame + title overlay until ~40 s.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "birder-king-chipmunks-woods",
+      "source": "youtube",
+      "ref": "DQWZnqqmXhM",
+      "title": "Dog TV - Chipmunks, Squirrels, and Birds in the Woods.",
+      "channel": "Birder King",
+      "durationSec": 24221,
+      "tags": [
+        "squirrels",
+        "birds"
+      ],
+      "features": [
+        "small-prey-motion",
+        "close-up",
+        "erratic-motion",
+        "natural-sound"
+      ],
+      "startAt": 10,
+      "arousalRisk": "high",
+      "why": "Macro chipmunks/squirrels filling the frame with quick stop-start motion - the classic small-prey pattern.",
+      "notes": "Black frame at 0 s; chipmunk from ~10 s.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "four-paws-bunnies-squirrels-chase",
+      "source": "youtube",
+      "ref": "UT6oisYJZzw",
+      "title": "✨10-hour Dog & Cat TV ✨ Bunnies 🐇, Squirrels 🐿& Birds 🐦 chase each other around the honeysuckles.",
+      "channel": "Four Paws TV",
+      "durationSec": 36176,
+      "tags": [
+        "squirrels",
+        "birds"
+      ],
+      "features": [
+        "small-prey-motion",
+        "chasing",
+        "static-camera",
+        "natural-sound"
+      ],
+      "startAt": 30,
+      "arousalRisk": "high",
+      "why": "Static ground-level camera with rabbits and squirrels chasing each other: chasing motion patterns are preferentially looked at by dogs early in exposure (Abdai et al.).",
+      "notes": "Animals are fairly small in frame.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "handsome-nature-rabbits",
+      "source": "youtube",
+      "ref": "rmr6MkBdD48",
+      "title": "Rabbit! Rabbit! Rabbit! - 10 Hour Video for Pets on the First of the Month - Aug 01, 2023",
+      "channel": "Handsome Nature",
+      "durationSec": 36000,
+      "tags": [
+        "squirrels",
+        "birds"
+      ],
+      "features": [
+        "small-prey",
+        "close-up",
+        "natural-sound"
+      ],
+      "startAt": 10,
+      "arousalRisk": "medium",
+      "why": "Close-up wild rabbits, chipmunks and jays; small-mammal content with mostly stationary feeding, so less chase-triggering than squirrel videos.",
+      "notes": "Black frame at 0 s.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "dinning-mice-mouse-hole",
+      "source": "youtube",
+      "ref": "6pbreU5ChmA",
+      "title": "Cat TV ~ Mice in The Jerry Mouse Hole 🐭 8 HOURS 🐭 Videos for Cats",
+      "channel": "Paul Dinning",
+      "durationSec": 29727,
+      "tags": [
+        "squirrels"
+      ],
+      "features": [
+        "small-prey-motion",
+        "erratic-motion",
+        "high-contrast",
+        "static-camera"
+      ],
+      "startAt": 10,
+      "arousalRisk": "high",
+      "why": "Mice dashing in and out of a hole against a plain floor: fast, erratic, screen-crossing small-prey motion with high figure-ground contrast. Made for cats; terriers likely to react strongly.",
+      "notes": "Tagged 'squirrels' as nearest available tag (small rodents).",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "dinning-dog-tv-birds-squirrels",
+      "source": "youtube",
+      "ref": "dip2w_rGzn0",
+      "title": "Videos for Dogs To Watch - Dog TV Videos of Birds and Squirrels for Separation Anxiety",
+      "channel": "Paul Dinning",
+      "durationSec": 28802,
+      "tags": [
+        "birds",
+        "squirrels"
+      ],
+      "features": [
+        "small-prey-motion",
+        "close-up",
+        "birdsong"
+      ],
+      "startAt": 0,
+      "arousalRisk": "high",
+      "why": "Made-for-dogs close-ups of birds then squirrels on a stump with birdsong; action from frame 0.",
+      "notes": "Same maker as two catalog entries but a different video.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "sunset-cove-deer-fox-squirrel",
+      "source": "youtube",
+      "ref": "H4mxLe1-XNM",
+      "title": "Entertain Your Cat or Dog with Pet TV | Deer, Squirrel, Fox, and Birds All Come for a Visit",
+      "channel": "On Sunset Cove",
+      "durationSec": 28947,
+      "tags": [
+        "squirrels",
+        "birds",
+        "nature-sounds"
+      ],
+      "features": [
+        "wildlife",
+        "canid-like-fox",
+        "close-up",
+        "natural-sound"
+      ],
+      "startAt": 30,
+      "arousalRisk": "medium",
+      "why": "Fox (a canid) plus deer and squirrels at close range; wild animals interested 65% of watcher dogs in Donohue et al. 2024.",
+      "notes": "Logo at 0 s; fox on the log at ~30-80 s, which is a strong opening.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "backyard-chickens-continuous",
+      "source": "youtube",
+      "ref": "70IqKloH-mw",
+      "title": "Back Yard Chickens Continuous Footage! Rooster Crowing! Hens Clucking!",
+      "channel": "BackYardChickens",
+      "durationSec": 4532,
+      "tags": [
+        "farm"
+      ],
+      "features": [
+        "livestock",
+        "close-up",
+        "animal-sounds",
+        "rooster-crow",
+        "continuous-motion"
+      ],
+      "startAt": 0,
+      "arousalRisk": "medium",
+      "why": "Ground-level flock of chickens filling the frame with constant movement and loud clucking/crowing from 0 s - animal motion plus animal sound together.",
+      "notes": "Rooster crowing may trigger alert barking.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "four-paws-baby-goats-chickens",
+      "source": "youtube",
+      "ref": "CZRrq6Dc2a8",
+      "title": "👀Entertain your Cat & Dog = 10 HOURS of Baby Goats & Chickens | Dog TV 🐶 | Cat TV 😻| Pet Enrichment",
+      "channel": "Four Paws TV",
+      "durationSec": 36000,
+      "tags": [
+        "farm"
+      ],
+      "features": [
+        "livestock",
+        "close-up",
+        "faces-toward-camera",
+        "animal-sounds"
+      ],
+      "startAt": 10,
+      "arousalRisk": "medium",
+      "why": "Baby goats approach and sniff the lens (large animal faces on screen) with chickens moving behind.",
+      "notes": "Wire fence in front of lens.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "dinning-horses-grazing",
+      "source": "youtube",
+      "ref": "3bEGggqaIxc",
+      "title": "Horses ~ Extremely Satisfying Video of Horses Grazing ⭐ 8 HOURS ⭐",
+      "channel": "Paul Dinning",
+      "durationSec": 28885,
+      "tags": [
+        "farm",
+        "nature-sounds"
+      ],
+      "features": [
+        "livestock",
+        "slow-motion-grazing",
+        "calm"
+      ],
+      "startAt": 160,
+      "arousalRisk": "low",
+      "why": "Horses interested 63% of watcher dogs in Donohue et al. 2024; slow grazing is a calm animal stimulus.",
+      "notes": "Ponies are distant for the first ~2.5 min; closer from ~160 s.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "lensmyth-closeup-birds-feeding",
+      "source": "youtube",
+      "ref": "2Oy4Fy8vIgw",
+      "title": "8 Hours of Close-up Birds feeding with Sound in 4K - NO Interruptions #CATTV",
+      "channel": "LensMyth",
+      "durationSec": 30822,
+      "tags": [
+        "birds"
+      ],
+      "features": [
+        "birds-close-up",
+        "flutter-motion",
+        "birdsong",
+        "high-contrast-red"
+      ],
+      "startAt": 10,
+      "arousalRisk": "medium",
+      "why": "Very close feeder shots with birds landing/leaving; the hopping-bird clip was the second most-watched test video in Donohue et al. 2024 (~half of dogs).",
+      "notes": "Black frame at 0 s. Note: the red cardinal is not a salient colour for dichromatic dogs.",
+      "verified": {
+        "oembed": 200,
+        "playableInEmbed": true,
+        "live": false
+      }
+    },
+    {
+      "id": "file-puppy-kitten-playing-tokyo",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/transcoded/5/5a/Puppiesplaying-tokyoarea-jan7-2020.webm/Puppiesplaying-tokyoarea-jan7-2020.webm.480p.vp9.webm",
+      "title": "Puppiesplaying-tokyoarea-jan7-2020",
+      "channel": "Nesnad",
+      "durationSec": 23,
+      "tags": [
+        "dogs-playing"
+      ],
+      "features": [
+        "conspecifics",
+        "puppy",
+        "social-play"
+      ],
+      "startAt": 0,
+      "arousalRisk": "low",
+      "why": "Short clip of a puppy play-wrestling; conspecific content from frame 0, silent so no bark trigger.",
+      "license": "CC BY 4.0",
+      "commonsPage": "https://commons.wikimedia.org/wiki/File:Puppiesplaying-tokyoarea-jan7-2020.webm",
+      "notes": "No audio track. Pet-shop pen; the playmate is a kitten. 22 s - loop or use as a sting.",
+      "verified": {
+        "oembed": null,
+        "playableInEmbed": null,
+        "live": null,
+        "http": 200,
+        "contentType": "video/webm",
+        "acceptRanges": "bytes",
+        "bytes": 1771167
+      },
+      "localCopy": "research/media/puppies-playing-tokyo-480p.webm"
+    },
+    {
+      "id": "file-dogs-pulling-sled",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b8/Dogs_pulling_a_sled.webm/Dogs_pulling_a_sled.webm.480p.vp9.webm",
+      "title": "Dogs pulling a sled",
+      "channel": "Jan Mosimann",
+      "durationSec": 60,
+      "tags": [
+        "dogs-playing",
+        "nature-sounds"
+      ],
+      "features": [
+        "conspecifics",
+        "dog-team-running",
+        "pov",
+        "steady-motion"
+      ],
+      "startAt": 0,
+      "arousalRisk": "low",
+      "why": "Musher's-eye view of a dog team running - continuous conspecific locomotion without play-fighting or barking close-ups.",
+      "license": "CC BY 2.0",
+      "commonsPage": "https://commons.wikimedia.org/wiki/File:Dogs_pulling_a_sled.webm",
+      "notes": "Dogs are small/seen from behind.",
+      "verified": {
+        "oembed": null,
+        "playableInEmbed": null,
+        "live": null,
+        "http": 200,
+        "contentType": "video/webm",
+        "acceptRanges": "bytes",
+        "bytes": 9643012
+      },
+      "localCopy": "research/media/dogs-pulling-sled-480p.webm"
+    },
+    {
+      "id": "file-african-wild-dogs-playing",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/transcoded/4/40/African_wild_dogs_%28Lycaon_pictus%29_playing.webm/African_wild_dogs_%28Lycaon_pictus%29_playing.webm.480p.vp9.webm",
+      "title": "African wild dogs (Lycaon pictus) playing",
+      "channel": "Paul Hayes",
+      "durationSec": 189,
+      "tags": [
+        "dogs-playing"
+      ],
+      "features": [
+        "canids",
+        "social-play",
+        "wildlife"
+      ],
+      "startAt": null,
+      "arousalRisk": "medium",
+      "why": "Canid social play; dogs attend most to dog-like animals and to social interaction.",
+      "license": "CC BY 3.0",
+      "commonsPage": "https://commons.wikimedia.org/wiki/File:African_wild_dogs_(Lycaon_pictus)_playing.webm",
+      "notes": "Not visually reviewed; 480p transcode is ~22 MB.",
+      "verified": {
+        "oembed": null,
+        "playableInEmbed": null,
+        "live": null,
+        "http": 200,
+        "contentType": "video/webm",
+        "acceptRanges": "bytes",
+        "bytes": 21950107
+      }
+    },
+    {
+      "id": "file-black-squirrel-eating-seeds",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/transcoded/f/fa/Black_squirrel_eating_seeds.ogv/Black_squirrel_eating_seeds.ogv.480p.vp9.webm",
+      "title": "Black squirrel eating seeds",
+      "channel": "gunthercox",
+      "durationSec": 104,
+      "tags": [
+        "squirrels"
+      ],
+      "features": [
+        "small-prey-motion",
+        "high-contrast",
+        "snow-background"
+      ],
+      "startAt": 0,
+      "arousalRisk": "high",
+      "why": "Dark squirrels on white snow = maximum luminance contrast (works for dichromats) with squirrel-squirrel chases.",
+      "license": "CC0",
+      "commonsPage": "https://commons.wikimedia.org/wiki/File:Black_squirrel_eating_seeds.ogv",
+      "notes": "Source is only 640x480 and soft.",
+      "verified": {
+        "oembed": null,
+        "playableInEmbed": null,
+        "live": null,
+        "http": 200,
+        "contentType": "video/webm",
+        "acceptRanges": "bytes",
+        "bytes": 5944307
+      },
+      "localCopy": "research/media/black-squirrel-eating-seeds-480p.webm"
+    },
+    {
+      "id": "file-many-squirrels-eating-seeds",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/transcoded/9/9d/Many_squirls_eating_seeds.ogv/Many_squirls_eating_seeds.ogv.480p.vp9.webm",
+      "title": "Many squirls eating seeds",
+      "channel": "gunthercox",
+      "durationSec": 198,
+      "tags": [
+        "squirrels"
+      ],
+      "features": [
+        "small-prey-motion",
+        "multiple-animals"
+      ],
+      "startAt": null,
+      "arousalRisk": "high",
+      "why": "Several squirrels at once - more simultaneous small-prey motion.",
+      "license": "CC0",
+      "commonsPage": "https://commons.wikimedia.org/wiki/File:Many_squirls_eating_seeds.ogv",
+      "notes": "Not visually reviewed; 480p transcode ~25 MB.",
+      "verified": {
+        "oembed": null,
+        "playableInEmbed": null,
+        "live": null,
+        "http": 200,
+        "contentType": "video/webm",
+        "acceptRanges": "bytes",
+        "bytes": 25474425
+      }
+    },
+    {
+      "id": "file-curious-oregon-squirrels",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/transcoded/5/59/Curious_Oregon_squirrels_%2826288379860%29.webm/Curious_Oregon_squirrels_%2826288379860%29.webm.480p.vp9.webm",
+      "title": "Curious Oregon squirrels (26288379860)",
+      "channel": "BLM Oregon & Washington",
+      "durationSec": 37,
+      "tags": [
+        "squirrels"
+      ],
+      "features": [
+        "small-prey-motion",
+        "close-up",
+        "erratic-motion",
+        "natural-sound"
+      ],
+      "startAt": 0,
+      "arousalRisk": "high",
+      "why": "Ground squirrels darting at burrow mouths close to the lens from frame 0; US-government public domain.",
+      "license": "Public domain",
+      "commonsPage": "https://commons.wikimedia.org/wiki/File:Curious_Oregon_squirrels_(26288379860).webm",
+      "notes": "Ends with a BLM logo card for the last ~4 s - trim or stop at ~32 s.",
+      "verified": {
+        "oembed": null,
+        "playableInEmbed": null,
+        "live": null,
+        "http": 200,
+        "contentType": "video/webm",
+        "acceptRanges": "bytes",
+        "bytes": 4900287
+      },
+      "localCopy": "research/media/curious-oregon-squirrels-480p.webm"
+    },
+    {
+      "id": "file-red-squirrel-eats-a-nut",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/d8/Red_Squirrel_eats_a_nut.webm/Red_Squirrel_eats_a_nut.webm.480p.vp9.webm",
+      "title": "Red Squirrel eats a nut",
+      "channel": "Alvar Freude",
+      "durationSec": 96,
+      "tags": [
+        "squirrels"
+      ],
+      "features": [
+        "small-prey",
+        "close-up",
+        "mostly-stationary"
+      ],
+      "startAt": 5,
+      "arousalRisk": "medium",
+      "why": "Frame-filling squirrel, but sitting and eating rather than darting - attention without much chase trigger.",
+      "license": "CC BY 3.0",
+      "commonsPage": "https://commons.wikimedia.org/wiki/File:Red_Squirrel_eats_a_nut.webm",
+      "notes": "No audio track. Title text burned in during the first seconds.",
+      "verified": {
+        "oembed": null,
+        "playableInEmbed": null,
+        "live": null,
+        "http": 200,
+        "contentType": "video/webm",
+        "acceptRanges": "bytes",
+        "bytes": 8521582
+      },
+      "localCopy": "research/media/red-squirrel-eats-nut-480p.webm"
+    },
+    {
+      "id": "file-red-squirrel-england",
+      "source": "file",
+      "ref": "https://upload.wikimedia.org/wikipedia/commons/transcoded/5/52/Red_squirrel_%28Sciurus_vulgaris%29_in_England.webm/Red_squirrel_%28Sciurus_vulgaris%29_in_England.webm.480p.vp9.webm",
+      "title": "Red squirrel (Sciurus vulgaris) in England",
+      "channel": "Peter Trimming",
+      "durationSec": 120,
+      "tags": [
+        "squirrels"
+      ],
+      "features": [
+        "small-prey-motion",
+        "close-up"
+      ],
+      "startAt": null,
+      "arousalRisk": "high",
+      "why": "Two minutes of red squirrel footage by a prolific wildlife videographer.",
+      "license": "CC BY 2.0",
+      "commonsPage": "https://commons.wikimedia.org/wiki/File:Red_squirrel_(Sciurus_vulgaris)_in_England.webm",
+      "notes": "Not visually reviewed.",
+      "verified": {
+        "oembed": null,
+        "playableInEmbed": null,
+        "live": null,
+        "http": 200,
+        "contentType": "video/webm",
+        "acceptRanges": "bytes",
+        "bytes": 19028841
+      }
+    }
+  ]
+}

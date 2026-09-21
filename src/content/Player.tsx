@@ -72,7 +72,7 @@ export const Player = forwardRef<PlayerHandle, Props>(function Player({ volume, 
               const d = p.getDuration?.() ?? 0
               if (!(p as any).__seeked) {
                 (p as any).__seeked = true
-                if (v.startAt) p.seekTo(v.startAt, true)                                          // openers start where the action is
+                if (v.startAt != null) { if (v.startAt > 0) p.seekTo(v.startAt, true) }                                          // openers start where the action is
                 else if (d > 900) p.seekTo(Math.floor(Math.random() * d * 0.7), true)           // vary long ambient videos
               }
               started(v)

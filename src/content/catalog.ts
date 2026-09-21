@@ -16,11 +16,13 @@ export const isCalm = (v: Video) => v.arousalRisk !== 'high' && (v.calm ?? v.tag
 
 /**
  * The pool to draw from at this point in a session. The first `lead` picks come from openers when there are any;
- * the Calm channel only ever leads with low-arousal openers, because it promises calm, not excitement.
+ * Calm only ever leads with low-arousal openers; high-arousal ones (squirrels, barking playgroups) lead only on
+ * Bird TV, which is prey content by design. The research is clear that what grabs hardest also winds dogs up most.
  */
 export function sessionPool<T extends Pick<Video, 'opener' | 'arousalRisk'>>(all: T[], picksSoFar: number, channel: string, lead = 2): T[] {
   if (picksSoFar >= lead) return all
-  const openers = all.filter((v) => v.opener && (channel !== 'calm' || (v.arousalRisk ?? 'low') === 'low'))
+  const allowed = channel === 'calm' ? ['low'] : channel === 'birds' ? ['low', 'medium', 'high'] : ['low', 'medium']
+  const openers = all.filter((v) => v.opener && allowed.includes(v.arousalRisk ?? 'low'))
   return openers.length ? openers : all
 }
 

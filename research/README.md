@@ -5,7 +5,7 @@ Three files sit behind this summary:
 
 - [`canine-science.md`](canine-science.md): established science. Vision, hearing, attention, learning, welfare, individual differences. 66 sources, mostly peer-reviewed.
 - [`dogs-and-technology.md`](dogs-and-technology.md): 2015–2026 work on dogs and tech. Talking buttons, dog-initiated video calls, touchscreens, TV viewing, pet cameras, computer vision, and what parrots and monkeys do with media. Tiered A (peer-reviewed) and B (convincing but less authoritative).
-- `attention-stimuli-notes.md` and `opener-candidates.json`: what on-screen content attracts dogs, and videos that match (in progress).
+- [`attention-stimuli-notes.md`](attention-stimuli-notes.md): which on-screen stimuli attract dogs, ranked by strength of evidence, and why nothing is universal. [`opener-candidates.json`](opener-candidates.json): 30 verified videos chosen to match, with start offsets and an arousal-risk rating; all are now in the catalog and 22 of them lead sessions as "openers".
 
 Numbers in brackets refer to `canine-science.md`.
 

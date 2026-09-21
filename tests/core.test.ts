@@ -242,7 +242,7 @@ describe('pointer test', () => {
 describe('openers', () => {
   const vids = [{ id: 'a', opener: true, arousalRisk: 'high' as const }, { id: 'b', opener: true, arousalRisk: 'low' as const }, { id: 'c' }, { id: 'd' }]
   it('lead a session, then give way to the whole catalog', () => {
-    expect(sessionPool(vids, 0, 'everything').map((v) => v.id)).toEqual(['a', 'b'])
+    expect(sessionPool(vids, 0, 'everything').map((v) => v.id)).toEqual(['b'])   // high-arousal openers only lead on Bird TV
     expect(sessionPool(vids, 1, 'birds').map((v) => v.id)).toEqual(['a', 'b'])
     expect(sessionPool(vids, 2, 'everything')).toHaveLength(4)
   })
