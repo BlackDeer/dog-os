@@ -4,13 +4,14 @@ import { hitTest } from '../input/hitTest'
 import { useDogTouch, type DogTouch } from '../input/useDogTouch'
 
 export type GameKind = 'bop' | 'chase'
-interface Props { kind: GameKind; pointer: { x: number; y: number } | null; onInteract: (t: DogTouch | null) => void; ignoreCorner: (x: number, y: number, w: number, h: number) => boolean }
+export interface GameState { x: number; y: number; r: number; hits: number }
+interface Props { kind: GameKind; stateRef?: React.MutableRefObject<GameState | null>; pointer: { x: number; y: number } | null; onInteract: (t: DogTouch | null) => void; ignoreCorner: (x: number, y: number, w: number, h: number) => boolean }
 
 const BLUE = '#3a86ff', YELLOW = '#ffd23f'
 interface Particle { x: number; y: number; vx: number; vy: number; life: number; color: string }
 
 /** Bop: touch (or nose-dwell on) the drifting critter. Chase: a ball that flees contact. No fail states. */
-export function Game({ kind, pointer, onInteract, ignoreCorner }: Props) {
+export function Game({ kind, stateRef, pointer, onInteract, ignoreCorner }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [treat, setTreat] = useState(false)
   const sim = useRef({ x: 0, y: 0, vx: 0, vy: 0, r: 60, speed: 90, hits: 0, misses: 0, squash: 0, hue: 0, parts: [] as Particle[], lastNoseBop: 0, hoverSince: 0, w: 0, h: 0 })
@@ -83,6 +84,7 @@ export function Game({ kind, pointer, onInteract, ignoreCorner }: Props) {
       // keep the target out of the exit corner (top-left)
       if (s.x < s.r * 1.6 && s.y < s.r * 1.6) { s.vx = Math.abs(s.vx) + 20; s.vy = Math.abs(s.vy) + 20 }
       s.squash = Math.max(0, s.squash - dt * 4)
+      if (stateRef && s.w) stateRef.current = { x: s.x / s.w, y: s.y / s.h, r: s.r / Math.min(s.w, s.h), hits: s.hits }
 
       ctx.clearRect(0, 0, s.w, s.h)
       const wob = 1 + 0.06 * Math.sin(now / 180), sq = 1 - 0.25 * s.squash   // always moving a little: motion is what a dog's eye picks up
@@ -103,7 +105,7 @@ export function Game({ kind, pointer, onInteract, ignoreCorner }: Props) {
       raf = requestAnimationFrame(frame)
     }
     raf = requestAnimationFrame(frame)
-    return () => { cancelAnimationFrame(raf); removeEventListener('resize', resize) }
+    return () => { cancelAnimationFrame(raf); removeEventListener('resize', resize); if (stateRef) stateRef.current = null }
   }, [kind])
 
   return (

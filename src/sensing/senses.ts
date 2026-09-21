@@ -54,6 +54,8 @@ class Senses {
   private lastTouch = -Infinity
   private lastDogT = 0
   calibration: NoseCalibration = DEFAULT_CAL
+  /** Which model file produced these outputs; saved with every clip so results can be compared across retrains. */
+  modelInfo: Record<string, unknown> = {}
   calibratedNeutralYaw: number | null = null
 
   subscribe(fn: Listener) { this.listeners.add(fn); return () => { this.listeners.delete(fn) } }
@@ -97,8 +99,8 @@ class Senses {
     } catch { /* frame not ready */ }
   }
 
-  private onMessage(m: { type: string; pose?: DogPose | null; t?: number; inferMs?: number; reason?: string }) {
-    if (m.type === 'ready') return this.emit({ model: 'ready', modelNote: '' })
+  private onMessage(m: { type: string; pose?: DogPose | null; t?: number; inferMs?: number; reason?: string; info?: Record<string, unknown> }) {
+    if (m.type === 'ready') { this.modelInfo = m.info ?? {}; return this.emit({ model: 'ready', modelNote: '' }) }
     if (m.type === 'unavailable') return this.emit({ model: 'unavailable', modelNote: m.reason ?? '' })
     if (m.type !== 'pose') return
     const now = m.t ?? performance.now()

@@ -18,8 +18,11 @@ export async function buildZip(rows: ClipRow[]): Promise<File> {
 export interface ClipSink { send(rows: ClipRow[]): Promise<'shared' | 'downloaded' | 'cancelled'> }
 
 /** v1 sink: the OS share sheet (Drive, Quick Share, email), or a plain download where file sharing isn't supported. */
+const MAX_ZIP_BYTES = 250 * 1024 * 1024   // the zip is built in memory
+
 export const shareSink: ClipSink = {
   async send(rows) {
+    if (rows.reduce((n, r) => n + r.bytes, 0) > MAX_ZIP_BYTES) throw new Error('too much to send at once; share clips a few at a time from the Clips tab')
     const file = await buildZip(rows)
     if (navigator.canShare?.({ files: [file] })) {
       try { await navigator.share({ files: [file], title: 'Dog OS clips' }) } catch (e) { if ((e as Error).name === 'AbortError') return 'cancelled'; return download(file, rows) }

@@ -12,8 +12,7 @@ export interface Settings {
   showMonitor: boolean    // live attention readout, top-right of dog mode (temporary, for pre-screening)
   pickScreen: boolean
   record: boolean
-  recordMode: 'auto' | 'full' | 'snippets'
-  recordAudio: boolean
+  recordSound: boolean
   storageCapMB: number
   devMode: boolean
   showHud: boolean
@@ -22,7 +21,7 @@ export interface Settings {
 
 export const DEFAULTS: Settings = {
   dogName: 'Niles', volumeCap: 0.5, rotateAfterSec: 45, preset: 'calm', fileOnly: false, noseCursor: true, showCursor: true, showMonitor: true, pickScreen: false,
-  record: true, recordMode: 'auto', recordAudio: false, storageCapMB: 500,
+  record: true, recordSound: true, storageCapMB: 3000,
   devMode: false, showHud: false, wizardDone: false,
 }
 
@@ -33,7 +32,7 @@ const listeners = new Set<() => void>()
 function load(): Settings {
   try {
     const stored = JSON.parse(localStorage.getItem(KEY) ?? 'null')
-    if (stored) return { ...DEFAULTS, ...stored }
+    if (stored) return { ...DEFAULTS, ...stored, storageCapMB: DEFAULTS.storageCapMB }
     const v1 = JSON.parse(localStorage.getItem('dogos.settings.v1') ?? 'null')
     return { ...DEFAULTS, wizardDone: !!v1?.wizardDone }
   } catch { return { ...DEFAULTS } }

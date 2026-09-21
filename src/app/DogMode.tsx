@@ -5,9 +5,9 @@ import { DEFAULT_CONFIG, Scheduler, type Action, type Mode } from '../brain/sche
 import { centroid, cosine } from '../brain/similarity'
 import { Player, type PlayerHandle } from '../content/Player'
 import { getFlags, isCalm, loadCatalog, setFlags, thumb, type Flags, type Video } from '../content/catalog'
-import { Game, type GameKind } from '../games/Game'
+import { Game, type GameKind, type GameState } from '../games/Game'
 import { useDogTouch } from '../input/useDogTouch'
-import { recorder } from '../recorder/recorder'
+import { recorder, type ScreenRef } from '../recorder/recorder'
 import { startCamera } from '../sensing/camera'
 import { senses, type SenseState } from '../sensing/senses'
 import { kvGet, kvSet, put, type PlayRecord } from '../store/db'
@@ -32,6 +32,8 @@ export function DogMode({ onExit }: { onExit: () => void }) {
   const recent = useRef<string[]>([])
   const lastInteraction = useRef(0)
   const failsInRow = useRef(0)
+  const gameState = useRef<GameState | null>(null)
+  const gameKind = useRef<GameKind>('bop')
   const gamesRested = useRef(false)   // Games channel: alternate game → one video as a breather → game
   const sessionId = useRef(`s-${Date.now()}`)
   const sessionStart = useRef(Date.now())
@@ -105,7 +107,8 @@ export function DogMode({ onExit }: { onExit: () => void }) {
           void finishPlay().then(() => {
             player.current?.stop()
             const g = pick(bandit.current, GAME_ARMS, { explore: 0.3 }) ?? GAME_ARMS[0]
-            setGame(g.id === 'game-chase' ? 'chase' : 'bop'); begin(g, 'game'); lastInteraction.current = performance.now()
+            gameKind.current = g.id === 'game-chase' ? 'chase' : 'bop'
+            setGame(gameKind.current); begin(g, 'game'); lastInteraction.current = performance.now()
           })
         }
         if (a.mode === 'pick') {
@@ -142,9 +145,19 @@ export function DogMode({ onExit }: { onExit: () => void }) {
       bandit.current = await kvGet('bandit', emptyBandit())
       try {
         await startCamera(); senses.start()
-        if (s.record) { await recorder.start(); if (alive) setRecording(true) }
+        if (s.record) { await recorder.start(sessionId.current); if (alive) setRecording(true) }
       } catch { /* no camera: the app still plays, it just can't see */ }
     })()
+    // what was on the screen, asked once per logged camera frame
+    recorder.setScreenProbe((): ScreenRef => {
+      const m = sched.current.mode, p = playing.current
+      if (m === 'play') { const g = gameState.current; return g ? { kind: 'game', id: gameKind.current, target: [+g.x.toFixed(4), +g.y.toFixed(4), +g.r.toFixed(4)], hits: g.hits } : { kind: 'none' } }
+      if (m === 'watch' && p?.kind === 'video') {
+        const v = catalog.current.find((x) => x.id === p.arm.id)
+        return v ? { kind: v.source, id: v.id, ref: v.ref, ...(player.current?.probe() ?? { t: null, dur: null, state: 'none' }) } : { kind: 'none' }
+      }
+      return { kind: m === 'rest' || m === 'pick' ? m : 'none' }
+    })
     const unsub = senses.subscribe((st) => {
       setSense(st)
       const p = playing.current
@@ -173,7 +186,7 @@ export function DogMode({ onExit }: { onExit: () => void }) {
       clearInterval(loop); unsub()
       void finishPlay()
       void put('sessions', { id: sessionId.current, start: sessionStart.current, end: Date.now(), activeSec: sched.current.activeSeconds, preset: getSettings().preset })
-      void recorder.stop()
+      void recorder.stop().then(() => recorder.setScreenProbe(null))
       senses.stop(); ambient(false)
       void exitKiosk()
     }
@@ -209,7 +222,7 @@ export function DogMode({ onExit }: { onExit: () => void }) {
       <Player ref={player} volume={settings.volumeCap} dimmed={mode === 'rest'} onFail={onVideoFail} onPlaying={() => { failsInRow.current = 0 }} />
       {mode === 'rest' && <RestScene />}
       {mode === 'play' && (
-        <Game kind={game} pointer={settings.noseCursor ? sense.nose : null} ignoreCorner={inGateCorner}
+        <Game kind={game} stateRef={gameState} pointer={settings.noseCursor ? sense.nose : null} ignoreCorner={inGateCorner}
           onInteract={(t) => { lastInteraction.current = performance.now(); senses.noteTouch(); if (t) recorder.noteTouch(t.nx, t.ny); if (playing.current) playing.current.touches++ }} />
       )}
       {mode === 'pick' && picks.length === 2 && (

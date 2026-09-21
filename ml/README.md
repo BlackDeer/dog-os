@@ -92,3 +92,16 @@ Notes
 | `export.py` | ONNX export, `dogpose.json`, PyTorch/ORT parity, per-keypoint error, int8 trial |
 | `ingest.py`, `eval_clips.py`, `prelabel.py`, `labeler/` | the data loop above |
 | `REPORT.md` | what the current model is and how good it measured |
+
+## Looking at sessions
+
+```sh
+ml/.venv/bin/python ml/replay.py            # camera | rebuilt screen, model overlay, attention trace, sound -> ml/out/replay/
+python3 ml/analyze_pointer.py               # pointer shake, dropouts, confidence by position and distance
+ml/.venv/bin/python ml/contact_sheet.py     # pointer-test clips: one annotated frame per target -> ml/out/sheets/
+```
+
+Clip format `dogos-clip/2`: every pose entry carries `screen`, a reference to what was showing
+(`youtube`/`file`: id + playback time + player state; `game`: target x, y, radius, hits; `rest`). `capture` is
+reserved for real screen video. Recorded keypoints are a cache of what the model did at the time; the video is
+the ground truth.

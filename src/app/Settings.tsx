@@ -8,7 +8,8 @@ export function SettingsScreen() {
     <div className="settings">
       <h2>Settings</h2>
       <label className="row between"><span>Volume limit</span><input type="range" min={0} max={1} step={0.05} value={s.volumeCap} onChange={(e) => setSettings({ volumeCap: Number(e.target.value) })} /></label>
-      <label className="row between"><span>Record sessions for training<small>Clips stay on this device until you share them.</small></span><input type="checkbox" checked={s.record} onChange={bool('record')} /></label>
+      <label className="row between"><span>Record sessions for training<small>The whole session, from the front camera. Clips stay on this device until you share them.</small></span><input type="checkbox" checked={s.record} onChange={bool('record')} /></label>
+      <label className="row between"><span>Include sound<small>Barks and whines are useful signal. The microphone also hears the room.</small></span><input type="checkbox" checked={s.recordSound} disabled={!s.record} onChange={bool('recordSound')} /></label>
       <label className="row between"><span>Show the pointer to the dog<small>Turn off if the dog starts chasing it.</small></span><input type="checkbox" checked={s.showCursor} onChange={bool('showCursor')} /></label>
       <label className="row between"><span>Attention monitor<small>Live camera and attention readout, top right, while testing.</small></span><input type="checkbox" checked={s.showMonitor} onChange={bool('showMonitor')} /></label>
       <label className="row between"><span>No YouTube<small>Only the bundled clips. No ads, but only five videos.</small></span><input type="checkbox" checked={s.fileOnly} onChange={bool('fileOnly')} /></label>

@@ -15,10 +15,22 @@ attention score, what was on screen, touches. The work below is about closing ea
 
 ## Focus, in order
 
-### 1. Instrument what's on screen (small, unlocks the rest)
-The timeline knows *which* video played but not *where in it*, and knows a game was running but not where the
-target was. Add to every pose entry: video playback time (`getCurrentTime`), and in games the target's screen
-position. Add the model version to clip metadata so results can be compared across retrains.
+### 1. Record the session, not a summary of it (done 2026-09-21)
+The durable asset is the raw pair: **what the camera saw** and **what was on the screen**, in sync. Model
+output is a cache that any later model can regenerate. So the app now records whole sessions (camera and
+sound, 5-minute clips) and logs a screen reference with every camera frame.
+- The screen half is a **stand-in**: a content id plus playback time, or the game's state (target position,
+  radius, hits). From that the Mac can rebuild what was showing. The real solution is the screen's own pixels,
+  which becomes possible once we host the content (or can capture the display); the timeline type reserves
+  `kind: "capture"` for it, and readers must switch on `kind`.
+- Known gaps in the stand-in: a YouTube ad is invisible to us (playback time just stops advancing), and a
+  video that is later removed can't be rebuilt.
+- Every clip also carries the model file's identity, so results can be compared across retrains.
+- `ml/replay.py` renders camera and rebuilt screen side by side with the model's output drawn over both, a
+  scrubbing attention trace underneath, and the sound kept. `ml/eval_clips.py` re-runs a different model over
+  the same footage.
+- Costs accepted for the MVP: about 6 MB a minute, a 3 GB cap on the device, more heat. Cut later, once the
+  models are good enough to choose what's worth keeping.
 
 ### 2. Tracker data and training (nose + attention both depend on it)
 Field test 1 showed the failure to fix: the model flips between two confident readings of a face. Confidence

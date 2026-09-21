@@ -308,7 +308,8 @@ It is for the owner glancing across the room. Nothing else human-readable appear
   monitor (on), no YouTube. Removed: dog's name, session length and rest, quiet hours, rotation threshold, nose
   calibration, pick screen, recording mode/audio/storage cap, dev mode. They run on defaults. The pointer test
   is reachable at `#pointer-test` only.
-- **Recording is on by default** and sharing is one tap from the front page.
+- **Recording is on by default**, whole sessions with sound (one Settings row turns sound off), and sharing is
+  one tap from the front page. Smart snippets are gone: see `ROADMAP.md` step 1 for why raw sessions win.
 - **Sessions run until the owner exits**: no session limit, cooldown or quiet hours. Calm never schedules
   games; Games opens on a game and alternates game → one video → game.
 - **Exit**: a visible *✕ hold to exit* button, top-left, held for 1.5 s; Esc on keyboards. The hidden corner

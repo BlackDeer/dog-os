@@ -21,6 +21,8 @@ export interface PlayerHandle {
   play(v: Video): Promise<void>
   stop(): void
   setVolume(v: number): void
+  /** Where playback is right now; logged with every camera frame so the screen can be rebuilt later. */
+  probe(): { t: number | null; dur: number | null; state: string }
 }
 interface Props { volume: number; dimmed?: boolean; onFail: (v: Video, why: string) => void; onPlaying?: (v: Video) => void }
 
@@ -115,6 +117,18 @@ export const Player = forwardRef<PlayerHandle, Props>(function Player({ volume, 
       fileEl.current?.pause()
     },
     setVolume(v) { vol.current = v; applyVolume(1) },
+    probe() {
+      const v = current.current
+      try {
+        if (v?.source === 'youtube' && yt.current?.getCurrentTime) {
+          const st = yt.current.getPlayerState?.()
+          const name = ({ [-1]: 'unstarted', 0: 'ended', 1: 'playing', 2: 'paused', 3: 'buffering', 5: 'cued' } as Record<number, string>)[st] ?? 'unknown'
+          return { t: +yt.current.getCurrentTime().toFixed(2), dur: yt.current.getDuration?.() || null, state: name }
+        }
+        if (v?.source === 'file' && fileEl.current) { const el = fileEl.current; return { t: +el.currentTime.toFixed(2), dur: isFinite(el.duration) ? el.duration : null, state: el.paused ? 'paused' : el.readyState < 3 ? 'buffering' : 'playing' } }
+      } catch { /* player not ready */ }
+      return { t: null, dur: null, state: 'none' }
+    },
   }))
 
   useEffect(() => () => { clearWatchdog(); if (ramp.current) clearInterval(ramp.current); try { yt.current?.destroy?.() } catch { /* ignore */ } }, [])

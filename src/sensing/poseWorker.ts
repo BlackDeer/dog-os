@@ -29,7 +29,7 @@ async function init(base: string) {
     canvas = new OffscreenCanvas(size, size)
     ctx = canvas.getContext('2d', { willReadFrequently: true })
     chw = new Float32Array(3 * size * size)
-    postMessage({ type: 'ready', size, K })
+    postMessage({ type: 'ready', size, K, info: { file, baseModel: meta?.baseModel ?? null, bytes: buf.byteLength, lastModified: res.headers.get('last-modified'), etag: res.headers.get('etag') } })
   } catch (e) {
     postMessage({ type: 'unavailable', reason: String((e as Error).message ?? e) })
   }
