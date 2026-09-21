@@ -48,7 +48,7 @@ export function PointerTest({ onExit }: { onExit: () => void }) {
       setSense(st)
       if (collecting.current) samples.current.push({ ptr: st.nose, raw: st.rawNose, conf: st.noseConf, yawUsed: st.yawUsed, ref: st.ref })
     }) }).catch(() => setNote('Camera blocked.'))
-    return () => { off(); void recorder.stop(); senses.stop(); stopCamera() }
+    return () => { off(); senses.stop(); void recorder.stop().then(stopCamera) }
   }, [])
 
   useEffect(() => {

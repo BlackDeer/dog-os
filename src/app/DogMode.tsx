@@ -8,7 +8,7 @@ import { getFlags, isCalm, loadCatalog, setFlags, thumb, type Flags, type Video 
 import { Game, type GameKind, type GameState } from '../games/Game'
 import { useDogTouch } from '../input/useDogTouch'
 import { recorder, type ScreenRef } from '../recorder/recorder'
-import { startCamera } from '../sensing/camera'
+import { startCamera, stopCamera } from '../sensing/camera'
 import { senses, type SenseState } from '../sensing/senses'
 import { kvGet, kvSet, put, type PlayRecord } from '../store/db'
 import { getSettings, useSettings } from '../store/settings'
@@ -18,6 +18,7 @@ import { enterKiosk, exitKiosk } from './kiosk'
 
 interface NowPlaying { arm: Arm; kind: 'video' | 'game'; start: number; attSum: number; rewSum: number; n: number; touches: number; workedUpSec: number }
 interface Ripple { id: number; x: number; y: number }
+let sessionSeq = 0   // lets a finished session release the camera only if no newer session has taken it over
 const GAME_ARMS: Arm[] = [{ id: 'game-bop', tags: ['game'] }, { id: 'game-chase', tags: ['game'] }]
 
 export function DogMode({ onExit }: { onExit: () => void }) {
@@ -135,6 +136,7 @@ export function DogMode({ onExit }: { onExit: () => void }) {
   // ---- lifecycle ---------------------------------------------------------------------------------
   useEffect(() => {
     let alive = true
+    const seq = ++sessionSeq
     const s = getSettings()
     unlockAudio(); setVolumeCap(s.volumeCap)
     void enterKiosk()
@@ -144,7 +146,9 @@ export function DogMode({ onExit }: { onExit: () => void }) {
       flags.current = await getFlags()
       bandit.current = await kvGet('bandit', emptyBandit())
       try {
-        await startCamera(); senses.start()
+        await startCamera()
+        if (!alive) { if (seq === sessionSeq) stopCamera(); return }   // the owner left before the camera came up
+        senses.start()
         if (s.record) { await recorder.start(sessionId.current); if (alive) setRecording(true) }
       } catch { /* no camera: the app still plays, it just can't see */ }
     })()
@@ -186,7 +190,8 @@ export function DogMode({ onExit }: { onExit: () => void }) {
       clearInterval(loop); unsub()
       void finishPlay()
       void put('sessions', { id: sessionId.current, start: sessionStart.current, end: Date.now(), activeSec: sched.current.activeSeconds, preset: getSettings().preset })
-      void recorder.stop().then(() => recorder.setScreenProbe(null))
+      // the recorder needs the stream until its last clip is flushed; then the camera goes off
+      void recorder.stop().then(() => { recorder.setScreenProbe(null); if (seq === sessionSeq) stopCamera() })
       senses.stop(); ambient(false)
       void exitKiosk()
     }
