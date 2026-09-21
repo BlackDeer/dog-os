@@ -11,7 +11,7 @@ export function Wizard() {
       {step === 0 && (
         <section>
           <h1>Dog OS</h1>
-          <p>A screen for your dog: channels to watch, simple games, and training tools for you.</p>
+          <p>A screen for your dog: channels to watch and simple games.</p>
           <p>The front camera watches for the dog so the app learns what holds attention. Sessions are recorded as short clips to improve the tracking. Everything stays on this device unless you share it.</p>
           {err && <p className="note">{err}</p>}
           <button className="primary" onClick={() => startCamera().then(next).catch(() => setErr('Camera permission was blocked. Allow it in the site settings, then try again.'))}>Allow camera</button>

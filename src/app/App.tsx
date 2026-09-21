@@ -7,13 +7,12 @@ import { Library } from './Library'
 import { PointerTest } from './PointerTest'
 import { SettingsScreen } from './Settings'
 import { Today } from './Today'
-import { TouchTarget, Train } from './Train'
 import { Wizard } from './Wizard'
 import { enterKiosk } from './kiosk'
 
-type Screen = 'watch' | 'train' | 'library' | 'clips' | 'settings'
-type Full = null | 'dog' | 'touch-target' | 'pointer-test'
-const TABS: [Screen, string][] = [['watch', 'Watch'], ['train', 'Train'], ['library', 'Library'], ['clips', 'Clips'], ['settings', 'Settings']]
+type Screen = 'watch' | 'library' | 'clips' | 'settings'
+type Full = null | 'dog' | 'pointer-test'
+const TABS: [Screen, string][] = [['watch', 'Watch'], ['library', 'Library'], ['clips', 'Clips'], ['settings', 'Settings']]
 
 export function App() {
   const settings = useSettings()
@@ -24,7 +23,6 @@ export function App() {
 
   if (!settings.wizardDone) return <Wizard />
   if (full === 'dog') return <DogMode key={session} onExit={() => setFull(null)} />
-  if (full === 'touch-target') return <TouchTarget onExit={() => setFull(null)} />
   if (full === 'pointer-test') return <PointerTest onExit={() => { history.replaceState(null, '', location.pathname); setFull(null) }} />
 
   // fullscreen and audio have to be requested inside the tap itself
@@ -33,7 +31,6 @@ export function App() {
     <div className="owner">
       <main className="owner-main">
         {screen === 'watch' && <Today onStart={start} />}
-        {screen === 'train' && <Train onTouchTarget={() => { unlockAudio(); void enterKiosk(); setFull('touch-target') }} />}
         {screen === 'library' && <Library />}
         {screen === 'clips' && <Clips />}
         {screen === 'settings' && <SettingsScreen />}

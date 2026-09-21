@@ -303,7 +303,7 @@ It is for the owner glancing across the room. Nothing else human-readable appear
 - **Front page is a channel picker**: four big tiles (Calm, Bird TV, Games, Everything). Tapping one starts it.
   No start button, no countdown, no camera on this screen. Below: one summary line once there is data, and a
   *Share* banner when there are new training clips.
-- **Tabs, all spelled out**: Watch · Train · Library · Clips · Settings.
+- **Tabs, all spelled out**: Watch · Library · Clips · Settings. (Train was removed for now; see `ROADMAP.md`.)
 - **Settings is five rows**: volume limit, record sessions (on), show pointer to the dog (on), attention
   monitor (on), no YouTube. Removed: dog's name, session length and rest, quiet hours, rotation threshold, nose
   calibration, pick screen, recording mode/audio/storage cap, dev mode. They run on defaults. The pointer test

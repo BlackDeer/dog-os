@@ -21,14 +21,6 @@ export const ripple = () => tone(520, 380, 0.22, 'sine', 0.25)
 export const squeak = () => { tone(900, 1500, 0.09, 'triangle', 0.4); setTimeout(() => tone(1500, 800, 0.12, 'triangle', 0.35), 80) }
 export const boing = () => tone(260, 520, 0.16, 'sine', 0.35)
 export const chime = () => { tone(660, 660, 0.25, 'sine', 0.3); setTimeout(() => tone(880, 880, 0.35, 'sine', 0.3), 120) }
-/** Training clicker: sharp, consistent, identical every time. That consistency is the whole point of a clicker. */
-export function click() {
-  if (!ctx || !master) return
-  const t = ctx.currentTime, len = Math.floor(ctx.sampleRate * 0.012), buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0)
-  for (let i = 0; i < len; i++) d[i] = (i % 7 < 3 ? 1 : -1) * Math.exp(-i / (len / 5))
-  const s = ctx.createBufferSource(), g = ctx.createGain(); g.gain.value = 0.9
-  s.buffer = buf; s.connect(g).connect(master); s.start(t)
-}
 /** Quiet brown-noise bed for REST and for offline fallback. */
 let bed: { src: AudioBufferSourceNode; gain: GainNode } | null = null
 export function ambient(on: boolean) {
