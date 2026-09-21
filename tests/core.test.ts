@@ -10,6 +10,7 @@ import type { DogPose } from '../src/sensing/types'
 import { parseYouTubeId } from '../src/content/catalog'
 import { evictionOrder, type ClipRow } from '../src/recorder/clipStore'
 import { inQuietHours, DEFAULTS } from '../src/store/settings'
+import { summarizeTarget } from '../src/app/PointerTest'
 
 const rng = (seed = 1) => () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296 }
 
@@ -206,6 +207,14 @@ describe('similarity', () => {
   it('float16 round-trips within tolerance', () => {
     const v = new Float32Array([0, 0.123, -0.5, 0.9999, -0.00031, 1]), back = decodeF16(encodeF16(v))
     v.forEach((x, i) => expect(back[i]).toBeCloseTo(x, 3))
+  })
+})
+
+describe('pointer test', () => {
+  it('separates steady error from shake and counts dropouts', () => {
+    const mk = (x: number | null) => ({ ptr: x === null ? null : { x, y: 0.5 }, raw: x === null ? null : { x, y: 0.5 }, conf: 0.8, yawUsed: true, ref: 'eyes' })
+    const r = summarizeTarget([0.5, 0.5], [mk(0.68), mk(0.72), mk(0.68), mk(0.72), mk(null)])
+    expect(r.found).toBeCloseTo(0.8); expect(r.errX).toBeCloseTo(0.2); expect(r.errY).toBeCloseTo(0); expect(r.jitterX).toBeCloseTo(0.02)
   })
 })
 

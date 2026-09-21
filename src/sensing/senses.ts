@@ -22,12 +22,18 @@ export interface SenseState {
   fps: number
   inferMs: number
   yaw: number
+  // diagnostics for tuning the pointer
+  rawNose: { x: number; y: number } | null   // pointer before smoothing
+  neutralYaw: number
+  yawUsed: boolean
+  ref: 'eyes' | 'ears' | null
+  proximity: number
   t: number
 }
 
 const initial: SenseState = {
   model: 'loading', modelNote: '', hasDog: false, pose: null, attention: 0, arousal: 'calm', presence: 'absent',
-  reward: 0, nose: null, zone: null, zoneDwellMs: 0, noseConf: 0, fps: 0, inferMs: 0, yaw: 0, t: 0,
+  reward: 0, nose: null, zone: null, zoneDwellMs: 0, noseConf: 0, fps: 0, inferMs: 0, yaw: 0, rawNose: null, neutralYaw: 0, yawUsed: false, ref: null, proximity: 0, t: 0,
 }
 
 type Listener = (s: SenseState) => void
@@ -103,11 +109,12 @@ class Senses {
     this.prevT = now
     const pose = m.pose ?? null
     let attRaw = 0, motion = 0, yaw = this.state.yaw, nose: SenseState['nose'] = null, noseConf = 0, neutralYaw = this.calibratedNeutralYaw ?? 0
+    let rawNose: SenseState['rawNose'] = null, yawUsed = false, ref: SenseState['ref'] = null, proximity = 0
     if (pose) {
       this.lastDogT = performance.now()
       const f = features(pose, this.prevPose, dt)
       if (f) {
-        motion = f.motion; yaw = f.yaw
+        motion = f.motion; yaw = f.yaw; ref = f.ref; proximity = f.proximity
         if (f.visible > 0.5 && f.motion < 0.5) this.neutral.push(f.yaw)
         // learned neutral is clamped: the lens is never far off-axis, so a dog that mostly looks away must not become "neutral"
         neutralYaw = this.calibratedNeutralYaw ?? (this.neutral.count > 30 ? Math.max(-0.25, Math.min(0.25, this.neutral.value)) : 0)
@@ -116,7 +123,9 @@ class Senses {
       const n = pose.kpts[KP.nose]
       noseConf = n.c
       if (n.c > 0.4) {
-        const s = pointAt(n.x, n.y, f && f.visible >= 0.35 ? yaw : neutralYaw, neutralYaw, this.calibration)
+        yawUsed = !!f && f.visible >= 0.35
+        const s = pointAt(n.x, n.y, yawUsed ? yaw : neutralYaw, neutralYaw, this.calibration)
+        rawNose = s
         nose = { x: this.fx.filter(s.x, now / 1000), y: this.fy.filter(s.y, now / 1000) }
         this.zones.update(nose.x, nose.y, now)
       }
@@ -126,7 +135,7 @@ class Senses {
     const attention = this.att.update(attRaw, dt)
     const arousal = this.arousal.update(pose ? motion : 0, now / 1000)
     this.emit({
-      hasDog: !!pose, pose, attention, arousal, yaw, nose, noseConf,
+      hasDog: !!pose, pose, attention, arousal, yaw, nose, noseConf, rawNose, neutralYaw, yawUsed, ref, proximity,
       presence: presence(!!pose, attention, performance.now() - this.lastTouch),
       reward: reward(attention, arousal),
       zone: this.zones.zone, zoneDwellMs: this.zones.dwellMs(now),

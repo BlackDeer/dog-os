@@ -6,6 +6,7 @@ export interface AttentionFeatures {
   roll: number         // |eye line tilt| in radians
   proximity: number    // eye distance as a fraction of frame width
   motion: number       // mean keypoint displacement since last frame, in eye-distance units per second
+  ref: 'eyes' | 'ears' // which pair served as the head's left/right reference
 }
 
 export interface AttentionWeights { yawTol: number; rollTol: number; proxLo: number; proxHi: number; motionTol: number }
@@ -18,11 +19,11 @@ export function features(pose: DogPose, prev: DogPose | null, dtSec: number): At
   const n = pose.kpts[KP.nose]
   let le = pose.kpts[KP.left_eye], re = pose.kpts[KP.right_eye]
   if (!n || !le || !re) return null
-  let scale = 1
+  let scale = 1, ref: 'eyes' | 'ears' = 'eyes'
   // Eyes are the weakest keypoints (only ~1k training images label them). When they drop out, the ear bases,
   // which are well supervised, stand in as the head's left/right reference; ears sit ~1.8× wider than eyes.
   const lb = pose.kpts[KP.left_ear_base], rb = pose.kpts[KP.right_ear_base]
-  if (Math.min(le.c, re.c) < MIN_C && lb && rb && Math.min(lb.c, rb.c) >= MIN_C) { le = lb; re = rb; scale = 0.55 }
+  if (Math.min(le.c, re.c) < MIN_C && lb && rb && Math.min(lb.c, rb.c) >= MIN_C) { le = lb; re = rb; scale = 0.55; ref = 'ears' }
   const visible = Math.min(n.c, le.c, re.c)
   const ex = re.x - le.x, ey = re.y - le.y
   const eyeDist = Math.hypot(ex, ey) * scale
@@ -40,7 +41,7 @@ export function features(pose: DogPose, prev: DogPose | null, dtSec: number): At
     }
     if (cnt) motion = sum / cnt / eyeDist / dtSec
   }
-  return { visible, yaw, roll, proximity: eyeDist, motion }
+  return { visible, yaw, roll, proximity: eyeDist, motion, ref }
 }
 
 /** 0..1: how much the dog's head is oriented at the screen. `neutralYaw` is the learned resting offset. */

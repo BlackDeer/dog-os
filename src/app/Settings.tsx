@@ -4,7 +4,7 @@ import { senses } from '../sensing/senses'
 import { setSettings, useSettings, type Settings } from '../store/settings'
 import type { Screen } from './App'
 
-export function SettingsScreen({ go }: { go: (s: Screen) => void }) {
+export function SettingsScreen({ go, onPointerTest }: { go: (s: Screen) => void; onPointerTest: () => void }) {
   const s = useSettings()
   const [adv, setAdv] = useState(false)
   const [usage, setUsage] = useState('')
@@ -26,6 +26,7 @@ export function SettingsScreen({ go }: { go: (s: Screen) => void }) {
       <label className="row between"><span>Show the pointer to the dog</span><input type="checkbox" checked={s.showCursor} disabled={!s.noseCursor} onChange={bool('showCursor')} /></label>
       <label className="row between"><span>Live attention monitor in dog mode</span><input type="checkbox" checked={s.showMonitor} onChange={bool('showMonitor')} /></label>
       <button className="row link" onClick={() => go('calibrate')}><span>Calibrate nose</span><span>→</span></button>
+      <button className="row link" onClick={onPointerTest}><span>Pointer test (measure accuracy and shake)</span><span>→</span></button>
       <label className="row between"><span>Pick screen (dog chooses between two)</span><input type="checkbox" checked={s.pickScreen} onChange={bool('pickScreen')} /></label>
       <hr />
       <button className="row link" onClick={() => setAdv((v) => !v)}><span>Advanced</span><span>{adv ? '▾' : '→'}</span></button>

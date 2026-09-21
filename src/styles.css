@@ -117,3 +117,10 @@ header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; } he
 @keyframes pulse { from { transform: scale(.92); } to { transform: scale(1.04); } }
 .tt-count { position: absolute; left: 14px; top: 10px; color: #39414f; font-size: 1rem; }
 @media (prefers-reduced-motion: reduce) { .blob, .big-target, .pick-half { animation: none; } }
+
+.ptest-intro { max-width: 720px; margin: 0 auto; padding: calc(20px + env(safe-area-inset-top)) 18px 24px; display: flex; flex-direction: column; gap: 10px; min-height: 100%; overflow-y: auto; }
+.ptest { cursor: auto; background: #05070d; }
+.ptest-target { position: absolute; width: 16vmin; height: 16vmin; margin: -8vmin 0 0 -8vmin; border-radius: 50%; border: 1.2vmin solid var(--yellow); opacity: .55; transition: left .5s ease, top .5s ease, opacity .3s; }
+.ptest-target.measuring { opacity: 1; background: rgba(255,210,63,.25); }
+.ptest-count { position: absolute; left: 12px; top: 10px; color: #8a94ab; font-size: .95rem; }
+.ptest-table { overflow-x: auto; } .ptest-table table { border-collapse: collapse; width: 100%; font-size: .85rem; } .ptest-table th, .ptest-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; } .ptest-table th { color: var(--muted); font-weight: 500; }

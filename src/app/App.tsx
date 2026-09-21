@@ -5,6 +5,7 @@ import { Calibrate } from './Calibrate'
 import { Clips } from './Clips'
 import { DogMode } from './DogMode'
 import { Library } from './Library'
+import { PointerTest } from './PointerTest'
 import { SettingsScreen } from './Settings'
 import { Today } from './Today'
 import { TouchTarget, Train } from './Train'
@@ -12,7 +13,7 @@ import { Wizard } from './Wizard'
 import { enterKiosk, exitKiosk } from './kiosk'
 
 export type Screen = 'today' | 'train' | 'library' | 'settings' | 'clips' | 'calibrate'
-type Full = null | 'dog' | 'countdown' | 'touch-target'
+type Full = null | 'dog' | 'countdown' | 'touch-target' | 'pointer-test'
 
 export function App() {
   const settings = useSettings()
@@ -21,6 +22,7 @@ export function App() {
 
   if (!settings.wizardDone) return <Wizard />
   if (full === 'dog') return <DogMode onExit={() => setFull(null)} />
+  if (full === 'pointer-test') return <PointerTest onExit={() => setFull(null)} />
   if (full === 'touch-target') return <TouchTarget onExit={() => setFull(null)} />
   if (full === 'countdown') return <Countdown onDone={() => setFull('dog')} onCancel={() => { void exitKiosk(); setFull(null) }} />
 
@@ -31,7 +33,7 @@ export function App() {
         {screen === 'today' && <Today onStart={() => { unlockAudio(); void enterKiosk(); setFull('countdown') }} go={setScreen} />}
         {screen === 'train' && <Train onTouchTarget={() => { unlockAudio(); void enterKiosk(); setFull('touch-target') }} />}
         {screen === 'library' && <Library />}
-        {screen === 'settings' && <SettingsScreen go={setScreen} />}
+        {screen === 'settings' && <SettingsScreen go={setScreen} onPointerTest={() => setFull('pointer-test')} />}
         {screen === 'clips' && <Clips back={() => setScreen('today')} />}
         {screen === 'calibrate' && <Calibrate back={() => setScreen('settings')} />}
       </main>

@@ -10,7 +10,8 @@ const CHUNK_SEC = 120, SNIPPET_SEC = 10, SNIPPET_MAX_SEC = 30, SNIPPET_GAP_SEC =
 
 export interface Context { mode: string; videoId: string | null; tag: string | null }
 type TimelineEntry =
-  | { t: number; type: 'pose'; mode: string; videoId: string | null; att: number; arousal: string; score: number; ptr?: number[]; box?: number[]; kpts?: number[][] }
+  | { t: number; type: 'pose'; mode: string; videoId: string | null; att: number; arousal: string; score: number; ptr?: number[]; raw?: number[]; yaw?: number; neutral?: number; yawUsed?: boolean; ref?: string | null; prox?: number; inferMs?: number; box?: number[]; kpts?: number[][] }
+  | { t: number; type: 'mark'; [k: string]: unknown }
   | { t: number; type: 'touch'; x: number; y: number; mode: string }
   | { t: number; type: 'context'; mode: string; videoId: string | null; tag: string | null }
 
@@ -56,6 +57,17 @@ class ClipRecorder {
     this.audioTrack?.stop(); this.audioTrack = null
   }
 
+  /** One continuous clip outside a dog session (used by the pointer test). Stop it with `stop()`. */
+  async startManual(trigger: string, maxSec = 300) {
+    if (this.running) await this.stop()
+    this.running = true; this.mode = 'full'
+    this.unsub = senses.subscribe((st) => this.onSense(st))
+    this.begin(trigger, maxSec)
+  }
+
+  /** Adds a custom entry to the running clip's timeline. */
+  mark(entry: Record<string, unknown>) { if (this.rec) this.timeline.push({ t: this.now(), type: 'mark', ...entry }) }
+
   setContext(c: Context) {
     this.ctx = c
     if (this.rec) this.timeline.push({ t: this.now(), type: 'context', ...c })
@@ -81,7 +93,8 @@ class ClipRecorder {
     const r = (v: number) => +v.toFixed(4)
     this.timeline.push({
       t: this.now(), type: 'pose', mode: this.ctx.mode, videoId: this.ctx.videoId, att: r(st.attention), arousal: st.arousal, score: r(st.pose?.score ?? 0),
-      ptr: st.nose ? [r(st.nose.x), r(st.nose.y)] : undefined,
+      ptr: st.nose ? [r(st.nose.x), r(st.nose.y)] : undefined, raw: st.rawNose ? [r(st.rawNose.x), r(st.rawNose.y)] : undefined,
+      yaw: r(st.yaw), neutral: r(st.neutralYaw), yawUsed: st.yawUsed, ref: st.ref, prox: r(st.proximity), inferMs: Math.round(st.inferMs),
       box: st.pose ? [r(st.pose.box.x), r(st.pose.box.y), r(st.pose.box.w), r(st.pose.box.h)] : undefined,
       kpts: st.pose?.kpts.map((k) => [r(k.x), r(k.y), +k.c.toFixed(2)]),
     })
